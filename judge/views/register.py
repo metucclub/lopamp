@@ -84,6 +84,9 @@ class RegistrationView(OldRegistrationView):
 
         if newsletter_id is not None and cleaned_data['newsletter']:
             Subscription(user=user, newsletter_id=newsletter_id, subscribed=True).save()
+
+	user.is_active = True
+	user.save()
         return user
 
     def get_initial(self, *args, **kwargs):

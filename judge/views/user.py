@@ -300,7 +300,6 @@ def user_ranking_redirect(request):
 
 class UserLogoutView(TitleMixin, TemplateView):
     template_name = 'registration/logout.html'
-    title = 'You have been successfully logged out.'
 
     def post(self, request, *args, **kwargs):
         auth_logout(request)

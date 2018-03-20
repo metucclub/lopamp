@@ -14,7 +14,6 @@ from judge.utils.problems import user_completed_ids
 from judge.utils.tickets import filter_visible_tickets
 from judge.utils.views import TitleMixin
 
-
 class PostList(ListView):
     model = BlogPost
     paginate_by = 10

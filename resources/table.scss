@@ -4,6 +4,7 @@ $table_header_rounding: 6px;
 
 .table {
     border-spacing: 0;
+    border-radius: 0;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -15,73 +16,46 @@ $table_header_rounding: 6px;
     }
 
     td:first-child {
-        border-color: $border_gray;
+        border-color: #ccc;
         border-width: 1px 1px 0 1px;
     }
 
     tr:last-child td {
         &:first-child {
-            border: 1px solid $border_gray;
+            border: 1px solid #ccc;
         }
 
-        border-color: $border_gray;
+        border-color: #ccc;
         border-width: 1px 1px 1px 0;
     }
 
     thead th {
         vertical-align: middle;
-
-        &:first-child {
-            border-top-left-radius: $table_header_rounding;
-        }
-
-        &:last-child {
-            border-top-right-radius: $table_header_rounding;
-        }
+    }
+    thead th:nth-child(1) {
+        border-left: 1px solid #ccc;
     }
 
     th {
         height: 2em;
-        color: #FFF;
-        background-color: $widget_black;
-        border-color: #555;
-        border-width: 1px 1px 0 0;
-        border-style: solid;
+        color: rgba(0, 0, 0, 0.8);
+        background-color: #eee;
+        border-right: 1px solid #ccc;
+        border-top: 1px solid #ccc;
         padding: 4px 10px;
         vertical-align: middle;
         text-align: center;
         white-space: nowrap;
         font-weight: 600;
         font-size: 1.1em;
-
-        &:first-child {
-            border-top-left-radius: $table_header_rounding;
-        }
-
-        &:last-child {
-            border-top-right-radius: $table_header_rounding;
-        }
     }
 
     td {
-        border-color: $border_gray;
+        border-color: #ccc;
         border-width: 1px 1px 0 0;
         border-style: solid;
         padding: 7px 5px;
         vertical-align: middle;
         text-align: center;
-    }
-
-    // Monkey-patches for awkward table rounding
-    tr:not(:first-child) th {
-        border-radius: 0;
-    }
-
-    tr:last-child th {
-        border-bottom-left-radius: $table_header_rounding;
-    }
-
-    thead tr th {
-        border-bottom-left-radius: 0 !important;
     }
 }

@@ -64,8 +64,7 @@ class SubmissionDetailBase(LoginRequiredMixin, TitleMixin, SubmissionMixin, Deta
             'problem': format_html(u'<a href="{0}">{1}</a>',
                                    reverse('problem_detail', args=[submission.problem.code]),
                                    submission.problem.translated_name(self.request.LANGUAGE_CODE)),
-            'user': format_html(u'<a href="{0}">{1}</a>',
-                                reverse('user_page', args=[submission.user.user.username]),
+            'user': format_html(u'{0}',
                                 submission.user.user.username),
         })
 
@@ -290,8 +289,7 @@ class AllUserSubmissions(ConditionalUserTabMixin, UserMixin, SubmissionsListBase
     def get_content_title(self):
         if self.request.user.is_authenticated and self.request.user.profile == self.profile:
             return format_html(u'All my submissions')
-        return format_html(u'All submissions by <a href="{1}">{0}</a>', self.username,
-                           reverse('user_page', args=[self.username]))
+        return format_html(u'All submissions by {0}', self.username)
 
     def get_my_submissions_page(self):
         if self.request.user.is_authenticated:
@@ -372,11 +370,10 @@ class UserProblemSubmissions(ConditionalUserTabMixin, UserMixin, ProblemSubmissi
 
     def get_content_title(self):
         if self.request.user.is_authenticated and self.request.user.profile == self.profile:
-            return format_html(u'''My submissions for <a href="{3}">{2}</a>''',
-                               self.username, reverse('user_page', args=[self.username]),
-                               self.problem_name, reverse('problem_detail', args=[self.problem.code]))
-        return format_html(u'''<a href="{1}">{0}</a>'s submissions for <a href="{3}">{2}</a>''',
-                           self.username, reverse('user_page', args=[self.username]),
+            return format_html(u'''My submissions for {0}</a>''',
+                               self.problem_name)
+        return format_html(u'''{0}'s submissions for <a href="{2}">{1}</a>''',
+                           self.username,
                            self.problem_name, reverse('problem_detail', args=[self.problem.code]))
 
     def get_context_data(self, **kwargs):
@@ -441,9 +438,7 @@ class ForceContestMixin(object):
         return self.contest.contest_problems.select_related('problem').get(problem=problem).order
 
     def get(self, request, *args, **kwargs):
-        if 'contest' not in kwargs:
-            raise ImproperlyConfigured(_('Must pass a contest'))
-        self._contest = get_object_or_404(Contest, key=kwargs['contest'])
+        self._contest = Contest.objects.all()[0]
         return super(ForceContestMixin, self).get(request, *args, **kwargs)
 
 

@@ -65,7 +65,7 @@ def nice_repr(timedelta, display='long', sep=', '):
         else:
             return pgettext('hours and minutes', '%h:%m').replace('%h', '%02d' % hours).replace('%m', '%02d' % minutes)
     elif display == 'concise':
-        days += weeks * 7
+        days += weeks * 71
         if days:
             return '%dd %02d:%02d:%02d' % (days, hours, minutes, seconds)
         else:

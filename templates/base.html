@@ -79,12 +79,12 @@
         <script src="{{ static('libs/jquery-cookie.js') }}"></script>
         <script src="{{ static('libs/jquery-taphold.js') }}"></script>
         <script src="{{ static('libs/jquery.unveil.js') }}"></script>
-        <script src="{{ static('libs/moment.js') }}"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment-with-locales.min.js"></script>
         <script src="{{ static('libs/select2/select2.js') }}"></script>
         {% include "extra_js.html" %}
         <script src="{{ static('common.js') }}"></script>
         <script>
-            moment.locale('{{ LANGUAGE_CODE }}');
+            moment.locale('tr');
             $(function () {
                 $('img.unveil').unveil(200);
             });
@@ -175,94 +175,57 @@
         </style>
     </noscript>
 </head>
-<body>
-<nav id="navigation" class="unselectable">
-    <div id="nav-container">
-        <a id="navicon" href="javascript:void(0)"><i class="fa fa-bars"></i></a>
-        <ul id="nav-list">
-            <li class="home-nav-element"><a href="{{ url('home') }}">{% include "site-logo-fragment.html" %}</a></li>
-            <li class="home-nav-element"><span class="nav-divider"></span></li>
-            <li class="home-menu-item"><a href="{{ url('home') }}" class="nav-home">{{ _('Home') }}</a></li>
-            {% for node in mptt_tree(nav_bar) recursive %}
-                <li>
-                    <a href="{{ node.path }}" class="nav-{{ node.key }}{% if node.key in nav_tab %} active{% endif %}">
-                        {{ user_trans(node.label) }}
-                        {% if not node.is_leaf_node %}
-                            <div href="javascript:void(0)" class="nav-expand">></div>
-                        {% endif %}
-                    </a>
-                    {% with children=node.get_children() %}
-                        {% if children %}<ul>{{ loop(children) }}</ul>{% endif %}
-                    {% endwith %}
-                </li>
-            {% endfor %}
-        </ul>
+<body style="max-width: 100%!important; background-color: #fff!important;">
 
-        <span id="user-links">
-            {% if request.user.is_authenticated %}
-                <ul>
-                    <li>
-                        <a href="{{ url('user_page') }}">
-                            <span>
-                                <img src="{{ gravatar(request.user, 32) }}" height="24" width="24">{# -#}
-                                <span>
-                                    {%- trans username=request.user.username -%}
-                                        Hello, <b>{{ username }}</b>.
-                                    {%- endtrans %}
-                                </span>
-                            </span>
-                        </a>
-                        <ul style="width: 150px">
-                            {% if request.user.is_staff or request.user.is_superuser %}
-                                <li><a href="{{ url('admin:index') }}">{{ _('Admin') }}</a></li>
-                            {% endif %}
-                            <li><a href="{{ url('user_edit_profile') }}">{{ _('Edit profile') }}</a></li>
-                            {% if request.user.is_impersonate %}
-                                <li><a href="{{ url('impersonate-stop') }}">Stop impersonating</a></li>
-                            {% else %}
-                                <li>
-                                    <form action="{{ url('auth_logout') }}" method="POST">
-                                        {% csrf_token %}
-                                        <button type="submit">{{ _('Log out') }}</button>
-                                    </form>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </li>
-                </ul>
-            {% else %}
-                <span class="anon">
-                    <a href="{{ url('auth_login') }}?next={{ LOGIN_RETURN_PATH|urlencode }}">
-                        <b>{{ _('Login') }}</b>
-                    </a>&nbsp;|&nbsp;<a href="{{ url('registration_register') }}">{{ _('Register') }}</a>
-                </span>
-            {% endif %}
-        </span>
-    </div>
-    <div id="nav-shadow"></div>
+<nav class="nav-cclub">
+	<div class="nav-left">
+		<a href="/">21. Programlama Yarışması</a>
+	</div>
+	<div class="nav-right">
+		{% if request.user.is_authenticated %}
+			<a href="{{ url("all_user_submissions", request.user) }}"><b>{{ request.user.username }}</b></a><form style="display:inline-block;" action="{{ url('auth_logout') }}" method="POST" id="logout">{% csrf_token %}<a href="#"onclick="document.getElementById('logout').submit();">Logout</a></form>
+			{% if request.user.is_superuser %}
+				<a href="{{ url("admin:index") }}">Admin</a>
+			{% endif %}
+		{% else %}
+			<a href="{{ url("auth_login") }}">Login</a>
+		{% endif %}
+	</div>
 </nav>
-{% if request.in_contest %}
-    <div id="contest-info">
-        <a href="{{ url('contest_view', request.participation.contest.key) }}" style="vertical-align: middle">
-            {{ request.participation.contest.name }} -
-            {% if request.participation.spectate %}
-                {{ _('spectating') }}
-            {% elif request.participation.end_time %}
-                <div id="contest-time-remaining" data-secs="{{ request.participation.time_remaining|seconds }}">
-                    {{ request.participation.time_remaining|timedelta("localized") }}
-                </div>
-            {% else %}
-                {{ _('virtual') }}
-            {% endif %}
-        </a>
-    </div>
-{% endif %}
-<div id="page-container">
+<style>
+.nav-cclub {
+	position: fixed;
+	top: 0px;
+	width: 100%;
+	height: 45px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+.nav-cclub a {
+	display: inline-block;
+	line-height: 45px;
+	margin: 0 6px 0 6px;
+	vertical-align: middle;
+}
+.nav-cclub a:hover {
+	text-decoration: underline;
+}
+.nav-left {
+	float: left;
+	margin-left: 12px;
+}
+.nav-right {
+	float: right;
+	margin-right: 12px;
+}
+</style>
+
+<div id="page-container" style="border: none!important; margin-top: 45px;">
     <noscript>
         <div id="noscript">{{ _('This site works best with JavaScript enabled.') }}</div>
     </noscript>
     <br>
-    <main id="content">
+    <main id="content" style="max-width: 1000px; margin: auto;">
         {% block title_row %}
             <h2 style="color:#393630; display:inline">
                 {% block content_title %}
@@ -272,7 +235,6 @@
         {% endblock %}
         {% block header %}{% endblock %}
         {% block title_ruler %}
-            <hr>
         {% endblock %}
         <div id="content-body">{% block body %}{% endblock %}</div>
     </main>
@@ -286,21 +248,7 @@
     <footer>
         <span id="footer-content">
             <br>
-            <a style="color: #808080" href="https://dmoj.ca">proudly powered by <b>DMOJ</b></a> |
-            {% if i18n_config.footer %}
-                {{ i18n_config.footer|safe }} |
-            {% endif %}
-            <form action="{{ url('set_language') }}" method="post" style="display: inline">
-                {% csrf_token %}
-            <input name="next" type="hidden" value="{{ request.get_full_path() }}">
-            <select name="language" onchange="form.submit()" style="height: 1.5em">
-                {% for language in language_info_list(LANGUAGES) %}
-                    <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
-                        {{ language.name_local }} ({{ language.code }})
-                    </option>
-                {% endfor %}
-            </select>
-          </form>
+            <a style="color: #808080" href="https://dmoj.ca">proudly powered by <b>DMOJ</b></a>
         </span>
     </footer>
 </div>

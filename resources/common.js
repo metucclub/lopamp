@@ -200,8 +200,7 @@ function count_down(label) {
         var m = Math.floor(time % 3600 / 60);
         var s = time % 60;
         if (d > 0)
-            label.text(npgettext('time format with day', '%d day %h:%m:%s', '%d days %h:%m:%s', d)
-                .replace('%d', d).replace('%h', format(h)).replace('%m', format(m)).replace('%s', format(s)));
+            label.text('%d gün, %h:%m:%s'.replace('%d', d).replace('%h', format(h)).replace('%m', format(m)).replace('%s', format(s)));
         else
             label.text(pgettext('time format without day', '%h:%m:%s')
                 .replace('%h', format(h)).replace('%m', format(m)).replace('%s', format(s)));
@@ -213,7 +212,7 @@ function register_time(elems, limit) {
     elems.each(function () {
         var outdated = false;
         var $this = $(this);
-        var time = moment($this.attr('data-iso'));
+        var time = moment.lang("tr")($this.attr('data-iso'));
         var rel_format = $this.attr('data-format');
         var abs = $this.text();
 

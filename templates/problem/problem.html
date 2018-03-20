@@ -1,6 +1,5 @@
 {% extends "common-content.html" %}
 {% block content_media %}
-    {% include "comments/media-css.html" %}
     <style>
         .title-state {
             font-size: 2em;
@@ -32,7 +31,6 @@
 {% endblock %}
 
 {% block content_js_media %}
-    {% include "comments/media-js.html" %}
     <script>
         $(function () {
             $('a#clone-link').click(function (event) {
@@ -238,18 +236,6 @@
     {% endwith %}
 {% endblock %}
 
-{% block post_description_end %}
-    {% if request.user.is_authenticated and not request.user.profile.mute %}
-        <a href="{{ url('new_problem_ticket', problem.code) }}" class="button clarify">
-            {%- if contest_problem and contest_problem.contest.use_clarifications -%}
-                {{ _('Request clarification') }}
-            {%- else -%}
-                {{ _('Report an issue') }}
-            {%- endif -%}
-        </a>
-    {% endif %}
-{% endblock %}
-
 {% block comments %}
     {% if contest_problem and contest_problem.contest.use_clarifications %}
         <div class="clarifications-area">
@@ -267,12 +253,9 @@
                 <p class="no-comments-message">{{ _('No clarifications have been made at this time.') }}</p>
             {% endif %}
         </div>
-    {% else %}
-        {% include "comments/list.html" %}
     {% endif %}
 {% endblock %}
 
 {% block bodyend %}
     {{ super() }}
-    {% include "comments/math.html" %}
 {% endblock %}

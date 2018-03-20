@@ -26,7 +26,7 @@ from django.views.generic.detail import BaseDetailView, DetailView
 from judge import event_poster as event
 from judge.comments import CommentedDetailView
 from judge.models import Contest, ContestParticipation, ContestTag, Profile
-from judge.models import Problem
+from judge.models import Problem, ContestProblem
 from judge.timezone import from_database_time
 from judge.utils.opengraph import generate_opengraph
 from judge.utils.ranker import ranker
@@ -150,7 +150,7 @@ class ContestMixin(object):
         return context
 
     def get_object(self, queryset=None):
-        contest = super(ContestMixin, self).get_object(queryset)
+        contest = Contest.objects.all()[0]
         user = self.request.user
         profile = self.request.user.profile if user.is_authenticated else None
 
@@ -197,11 +197,7 @@ class ContestDetail(ContestMixin, TitleMixin, CommentedDetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ContestDetail, self).get_context_data(**kwargs)
-        context['contest_problems'] = Problem.objects.filter(contests__contest=self.object) \
-            .order_by('contests__order').defer('description') \
-            .annotate(has_public_editorial=Sum(Case(When(solution__is_public=True, then=1),
-                                                    default=0, output_field=IntegerField()))) \
-            .add_i18n_name(self.request.LANGUAGE_CODE)
+        context["contest_problems"] = ContestProblem.objects.all()
         return context
 
 
@@ -281,7 +277,7 @@ class ContestJoin(LoginRequiredMixin, ContestMixin, BaseDetailView):
         profile.save()
         contest._updating_stats_only = True
         contest.update_user_count()
-        return HttpResponseRedirect(reverse('problem_list'))
+        return HttpResponseRedirect(reverse('contest_view'))
 
     def ask_for_access_code(self, form=None):
         contest = self.object
@@ -566,12 +562,8 @@ def contest_ranking_view(request, contest, participation=None):
     return render(request, 'contest/ranking.html', context)
 
 
-def contest_ranking(request, contest):
-    contest, exists = _find_contest(request, contest)
-    if not exists:
-        return contest
-    return contest_ranking_view(request, contest)
-
+def contest_ranking(request):
+    return contest_ranking_view(request, Contest.objects.all()[0])
 
 def base_participation_list(request, contest, profile):
     contest, exists = _find_contest(request, contest)

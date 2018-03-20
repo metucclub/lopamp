@@ -232,12 +232,7 @@ class Problem(models.Model):
         return ProblemClarification.objects.filter(problem=self)
 
     def update_stats(self):
-        self.user_count = self.submission_set.filter(points__gt=0).values('user').distinct().count()
-        submissions = self.submission_set.count()
-        self.ac_rate = 100.0 * self.submission_set.filter(result='AC').count() / submissions if submissions else 0
         self.save()
-
-    update_stats.alters_data = True
 
     def _get_limits(self, key):
         limits = {limit['language_id']: (limit['language__name'], limit[key])
@@ -280,6 +275,9 @@ class Problem(models.Model):
         return result
 
     def save(self, *args, **kwargs):
+        self.user_count = self.submission_set.filter(points__gt=0).values('user').distinct().count()
+        submissions = self.submission_set.count()
+        self.ac_rate = 100.0 * self.submission_set.filter(result='AC').count() / submissions if submissions else 0
         super(Problem, self).save(*args, **kwargs)
         if self.code != self.__original_code:
             try:

@@ -193,7 +193,7 @@ header {
         & > li > a > span {
             font-size: 13px;
             height: 36px;
-            padding-top: 8px;
+
             display: block;
             white-space: nowrap;
 
@@ -205,7 +205,7 @@ header {
             }
 
             & > span {
-                color: #eee;
+                color: rgba(0, 0, 0, 0.8);
                 vertical-align: middle;
                 display: inline;
                 margin-top: 11px;
@@ -222,10 +222,7 @@ header {
 }
 
 #nav-container {
-    background: $widget_black;
-
-    // opacity: 0.77
-    // filter: alpha(opacity=77)
+    background: #FFF;
     height: 100%;
 }
 
@@ -256,7 +253,7 @@ nav {
 
         li {
             display: inline-block;
-            color: #FFF;
+            color: rgba(0, 0, 0, 0.8);
             text-transform: uppercase;
             position: relative;
 
@@ -275,23 +272,13 @@ nav {
                 display: inline-block;
                 text-decoration: none;
                 vertical-align: middle;
-                color: #FFF;
+                color: $highlight_blue;
                 padding: 13px 7px;
                 height: 18px;
 
-                &:link {
-                    color: #FFF;
-                }
-
-                &:hover {
-                    color: #FFF;
-                    background: rgba(255, 255, 255, 0.25);
-                    margin: 0;
-                }
-
-                &.active {
-                    color: #FFF;
+                &:hover, &.active {
                     background: $highlight_blue;
+                    margin: 0;
                 }
 
                 .nav-expand {
@@ -304,7 +291,7 @@ nav {
                 position: absolute;
                 left: 5px;
                 display: none;
-                color: #fff;
+                color: rgba(0, 0, 0, 0.8);
                 background: $widget_black;
                 margin: 0 !important;
                 box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
