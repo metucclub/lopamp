@@ -1,3 +1,4 @@
+# coding: utf-8
 from calendar import Calendar, SUNDAY
 from collections import namedtuple, defaultdict
 from functools import partial
@@ -217,7 +218,8 @@ class ContestJoin(LoginRequiredMixin, ContestMixin, BaseDetailView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         try:
-            return self.join_contest(request)
+            self.join_contest(request)
+            return HttpResponseRedirect(reverse('contest_view'))
         except ContestAccessDenied:
             return self.ask_for_access_code()
 
@@ -277,7 +279,6 @@ class ContestJoin(LoginRequiredMixin, ContestMixin, BaseDetailView):
         profile.save()
         contest._updating_stats_only = True
         contest.update_user_count()
-        return HttpResponseRedirect(reverse('contest_view'))
 
     def ask_for_access_code(self, form=None):
         contest = self.object
@@ -294,6 +295,41 @@ class ContestJoin(LoginRequiredMixin, ContestMixin, BaseDetailView):
             'title': _('Enter access code for "%s"') % contest.name,
         })
 
+# join automatically on login
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import login as auth_login
+class LoginContestJoin(LoginView):
+    def form_valid(self, form):
+        """Join the first contest automatically on login."""
+        user = form.get_user()
+        auth_login(self.request, user)
+        contest = Contest.objects.all()[0]
+
+        if not contest.can_join and not self.is_organizer:
+            return generic_message(request, "Bir hata oluştu", "Yarışma henüz başlamadı.")
+
+        profile = user.profile
+        if profile.current_contest is not None:
+            return HttpResponseRedirect(self.get_success_url())
+
+        if contest.ended:
+            return generic_message(request, "Bir hata oluştu", "Yarışma bitti.")
+        else:
+            try:
+                participation = ContestParticipation.objects.get(
+                    contest=contest, user=profile, virtual=(-1 if user.is_superuser else 0)
+                )
+            except ContestParticipation.DoesNotExist:
+                participation = ContestParticipation.objects.create(
+                    contest=contest, user=profile, virtual=(-1 if user.is_superuser else 0),
+                    real_start=timezone.now(),
+                )
+
+        profile.current_contest = participation
+        profile.save()
+        contest._updating_stats_only = True
+        contest.update_user_count()
+        return HttpResponseRedirect(self.get_success_url())
 
 class ContestLeave(LoginRequiredMixin, ContestMixin, BaseDetailView):
     def get(self, request, *args, **kwargs):

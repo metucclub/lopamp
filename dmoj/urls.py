@@ -35,7 +35,7 @@ register_patterns = [
         TitledTemplateView.as_view(template_name='registration/registration_closed.html',
                                    title='Registration not allowed'),
         name='registration_disallowed'),
-    url(r'^login/$', auth_views.LoginView.as_view(
+    url(r'^login/$', contests.LoginContestJoin.as_view(
         template_name='registration/login.html',
         extra_context={'title': _('Login')},
         authentication_form=CustomAuthenticationForm,
