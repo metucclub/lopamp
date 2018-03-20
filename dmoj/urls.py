@@ -80,9 +80,6 @@ urlpatterns = [
         url(r'^scoreboard/ajax$', contests.contest_ranking_ajax, name='contest_ranking_ajax'),
         url(r'^join$', contests.ContestJoin.as_view(), name='contest_join'),
 
-        url(r'^rank/(?P<problem>\w+)/',
-            paged_list_view(ranked_submission.ContestRankedSubmission, 'contest_ranked_submissions')),
-
         url(r'^submissions/', paged_list_view(submission.AllSubmissions, 'all_submissions')),
         url(r'^submissions/user/(?P<user>\w+)/', paged_list_view(submission.AllUserSubmissions, 'all_user_submissions')),
 
@@ -92,32 +89,19 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include(register_patterns)),
 
-    url(r'^problems/$', problem.ProblemList.as_view(), name='problem_list'),
-    url(r'^problems/random/$', problem.RandomProblem.as_view(), name='problem_random'), url(r'^license/(?P<key>[-\w.]+)$', license.LicenseDetail.as_view(), name='license'),
-
     url(r'^problem/(?P<problem>[^/]+)', include([
         url(r'^$', problem.ProblemDetail.as_view(), name='problem_detail'),
-        url(r'^/editorial$', problem.ProblemSolution.as_view(), name='problem_editorial'),
-        url(r'^/raw$', problem.ProblemRaw.as_view(), name='problem_raw'),
-        url(r'^/pdf$', problem.ProblemPdfView.as_view(), name='problem_pdf'),
-        url(r'^/pdf/(?P<language>[a-z-]+)$', problem.ProblemPdfView.as_view(), name='problem_pdf'),
-        url(r'^/clone', problem.clone_problem, name='problem_clone'),
         url(r'^/submit$', problem.problem_submit, name='problem_submit'),
         url(r'^/resubmit/(?P<submission>\d+)$', problem.problem_submit, name='problem_submit'),
 
-        url(r'^/rank/', paged_list_view(ranked_submission.RankedSubmissions, 'ranked_submissions')),
         url(r'^/submissions/', paged_list_view(submission.ProblemSubmissions, 'chronological_submissions')),
         url(r'^/submissions/(?P<user>\w+)/', paged_list_view(submission.UserProblemSubmissions, 'user_submissions')),
-
         url(r'^/$', lambda _, problem: HttpResponsePermanentRedirect(reverse('problem_detail', args=[problem]))),
 
         url(r'^/test_data$', ProblemDataView.as_view(), name='problem_data'),
         url(r'^/test_data/init$', problem_init_view, name='problem_data_init'),
         url(r'^/test_data/diff$', ProblemSubmissionDiff.as_view(), name='problem_submission_diff'),
         url(r'^/data/(?P<path>.+)$', problem_data_file, name='problem_data_file'),
-
-        url(r'^/tickets$', ticket.ProblemTicketListView.as_view(), name='problem_ticket_list'),
-        url(r'^/tickets/new$', ticket.NewProblemTicketView.as_view(), name='new_problem_ticket'),
     ])),
 
     url(r'^src/(?P<submission>\d+)$', submission.SubmissionSource.as_view(), name='submission_source'),
@@ -172,12 +156,6 @@ urlpatterns = [
             {'location': '/about/', 'priority': 0.9},
         ]),
     }}),
-
-    url(r'^select2/', include([
-            url(r'^user_search$', UserSearchSelect2View.as_view(), name='user_search_select2_ajax'),
-            url(r'^contest_users/(?P<contest>\w+)$', ContestUserSearchSelect2View.as_view(),
-                name='contest_user_search_select2_ajax'),
-    ])),
 
     url(r'^judge-select2/', include([
         url(r'^profile/$', UserSelect2View.as_view(), name='profile_select2'),

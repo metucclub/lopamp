@@ -1,6 +1,6 @@
-<h3>{{ _('Statistics') }} <i class="fa fa-pie-chart"></i></h3>
 <div class="sidebox-content sidebox-table">
     <table class="table statistics-table">
+        <thead><th colspan=2>İstatistikler <i class="fa fa-pie-chart"></i></th></thead>
         {% for key, cls, count in results %}
             <tr class="{{ cls }}">
                 <td class="status">{{ key }}</td>

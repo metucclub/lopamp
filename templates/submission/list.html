@@ -196,11 +196,11 @@
     {% if perms.judge.change_submission and perms.judge.rejudge_submission %}
         <style>
             td.sub-prop, col.sub-prop {
-                width: 22%
+                width: 30%
             }
 
             col.sub-info, td.sub-info {
-                width: 78%
+                width: 70%
             }
 
             #status, #language {
@@ -211,16 +211,9 @@
 {% endblock %}
 
 {% block body %}
-    <div id="common-content">
-        <div id="content-right" class="submission">
-            <div class="info-float">
-                <div class="sidebox">
-                    <div id="statistics-table">{% include "problem/statistics-table.html" %}</div>
-                </div>
-            </div>
-        </div>
+    <div id="common-content" style="margin-top: 24px;">
 
-        <div id="content-left" class="submission">
+        <div id="content-left" class="submission" style="max-width: 768px; margin: auto;">
             {% if page_obj.num_pages > 1 %}
                 <div style="margin-bottom:6px;margin-top:3px">
                     {% include "list-pages.html" %}

@@ -38,9 +38,9 @@
 {% endif %}
 
 {% if can_view %}
-    <td class="sub-prop">
+    <td class="sub-prop" style="border-width: 1px 0 1px 0!important;">
         <a href="{{ url('submission_status', submission.id) }}">
-            <i class="fa fa-eye fa-fw"></i><span class="label">{{ _('view') }}</span>
+            <i class="fa fa-eye fa-fw"></i><span class="label">Görüntüle</span>
         </a>
         {% if perms.judge.rejudge_submission %} ·
             <a href="#" onclick="rejudge_submission({{ submission.id }}, event);return false">

@@ -14,15 +14,8 @@
         {{ make_tab('edit', 'fa-edit', url('admin:judge_contest_change', contest.id), "adminle") }}
     {% endif %}
 
-    {% if request.user.is_authenticated %}
-        {% if contest.can_join or participating or is_organizer %}
-            {% if not in_contest %}
-                <a href="{{ url('contest_join') }}"
-                     class="contest-join-pseudotab unselectable button full first-join">Başla</a>
-            {% endif %}
-        {% endif %}
-    {% elif contest.can_join %}
+    {% if not request.user.is_authenticated %}
         <a href="{{ url('auth_login') }}?next={{ LOGIN_RETURN_PATH|urlencode }}"
-           class="contest-join-pseudotab unselectable button full">ustden log in olunuz</a>
+           class="contest-join-pseudotab unselectable button full">Giriş</a>
     {% endif %}
 {% endblock %}

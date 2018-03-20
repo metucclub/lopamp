@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from operator import attrgetter
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -151,8 +152,8 @@ class SubmissionsListBase(DiggPaginatorMixin, TitleMixin, ListView):
     model = Submission
     paginate_by = 50
     show_problem = True
-    title = ugettext_lazy('All submissions')
-    content_title = ugettext_lazy('All submissions')
+    title = u"Tüm gönderiler"
+    content_title = u"Tüm gönderiler"
     tab = 'all_submissions_list'
     template_name = 'submission/list.html'
     context_object_name = 'submissions'
@@ -283,13 +284,13 @@ class AllUserSubmissions(ConditionalUserTabMixin, UserMixin, SubmissionsListBase
 
     def get_title(self):
         if self.request.user.is_authenticated and self.request.user.profile == self.profile:
-            return _('All my submissions')
-        return _('All submissions by %s') % self.username
+            return u'Gönderilerim'
+        return format_html(u'{0} tarafından tüm gönderiler', self.username)
 
     def get_content_title(self):
         if self.request.user.is_authenticated and self.request.user.profile == self.profile:
-            return format_html(u'All my submissions')
-        return format_html(u'All submissions by {0}', self.username)
+            return u'Gönderilerim'
+        return format_html(u'{0} tarafından tüm gönderiler', self.username)
 
     def get_my_submissions_page(self):
         if self.request.user.is_authenticated:
@@ -313,10 +314,10 @@ class ProblemSubmissionsBase(SubmissionsListBase):
         return super(ProblemSubmissionsBase, self)._get_queryset().filter(problem_id=self.problem.id)
 
     def get_title(self):
-        return _('All submissions for %s') % self.problem_name
+        return u"%s için tüm gönderiler" % self.problem_name
 
     def get_content_title(self):
-        return format_html(u'All submissions for <a href="{1}">{0}</a>', self.problem_name,
+        return format_html(u'<a href="{1}">{0}</a> için tüm gönderiler', self.problem_name,
                            reverse('problem_detail', args=[self.problem.code]))
 
     def access_check(self, request):
@@ -348,7 +349,6 @@ class ProblemSubmissionsBase(SubmissionsListBase):
             context['dynamic_update'] = context['page_obj'].number == 1
             context['dynamic_problem_id'] = self.problem.id
             context['last_msg'] = event.last()
-        context['best_submissions_link'] = reverse('ranked_submissions', kwargs={'problem': self.problem.code})
         return context
 
 
@@ -365,14 +365,14 @@ class UserProblemSubmissions(ConditionalUserTabMixin, UserMixin, ProblemSubmissi
 
     def get_title(self):
         if self.request.user.is_authenticated and self.request.user.profile == self.profile:
-            return _("My submissions for %(problem)s") % {'problem': self.problem_name}
-        return _("%(user)s's submissions for %(problem)s") % {'user': self.username, 'problem': self.problem_name}
+            return u"%s için gönderilerim" % self.problem_name
+        return u"%s için %s tarafından gönderilenler" % self.problem_name, self.username
 
     def get_content_title(self):
         if self.request.user.is_authenticated and self.request.user.profile == self.profile:
-            return format_html(u'''My submissions for {0}</a>''',
-                               self.problem_name)
-        return format_html(u'''{0}'s submissions for <a href="{2}">{1}</a>''',
+            return format_html(u"<a href='{1}'>{0}</a> için gönderilerim",
+                                                   self.problem_name, reverse('problem_detail', args=[self.problem.code]))
+        return format_html(u"<a href='{2}'>{1}</a> için {0} tarafından gönderilenler",
                            self.username,
                            self.problem_name, reverse('problem_detail', args=[self.problem.code]))
 

@@ -12,9 +12,6 @@
             var in_user_redirect = false;
             $('#search-handle').select2({
                 placeholder: '{{ _('Search by handle...') }}',
-                ajax: {
-                    url: '{{ url('user_search_select2_ajax') }}'
-                },
                 minimumInputLength: 1,
                 escapeMarkup: function (markup) {
                     return markup;

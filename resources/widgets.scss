@@ -408,14 +408,9 @@ ul.select2-selection__rendered {
 }
 
 .sidebox h3 {
-    margin: 0 -5px;
-    background: $widget_black;
-    border-radius: $widget_border_radius $widget_border_radius 0 0;
-    color: white;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 7px;
-    font-size: 1.3em;
+    background: #eee;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 18px;
 }
 
 .sidebox h3 .fa {
@@ -425,10 +420,8 @@ ul.select2-selection__rendered {
 }
 
 .sidebox-content {
-    border: 1px solid $border_gray;
+    border: 1px solid #ccc;
     border-top: none;
-    margin: 0 -5px;
-    padding: 1px 0.5em 3px;
 
     &.sidebox-table {
         border: none;
@@ -441,10 +434,6 @@ ul.select2-selection__rendered {
 }
 
 .sidebox {
-    border-top-left-radius: $widget_border_radius;
-    border-top-right-radius: $widget_border_radius;
-    padding: 0 5px !important;
-    padding-bottom: 1.5em !important;
 }
 
 .ws-closed {

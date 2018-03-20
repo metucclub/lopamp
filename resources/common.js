@@ -212,7 +212,7 @@ function register_time(elems, limit) {
     elems.each(function () {
         var outdated = false;
         var $this = $(this);
-        var time = moment.lang("tr")($this.attr('data-iso'));
+        var time = moment($this.attr('data-iso'));
         var rel_format = $this.attr('data-format');
         var abs = $this.text();
 
