@@ -1,0 +1,18 @@
+{
+  "name": "site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metucclub/lopamp.git"
+  },
+  "dependencies": {"qu": "*", "ws": "*", "simplesets": "*"},
+  "bugs": {
+    "url": "https://github.com/metucclub/lopamp/issues"
+  },
+  "homepage": "https://github.com/metucclub/lopamp#readme"
+}

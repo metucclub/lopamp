@@ -83,14 +83,6 @@
                 <div><a href="{{ url('problem_data', problem.code) }}">{{ _('Edit test data') }}</a></div>
             {% endif %}
         {% endif %}
-        {% if perms.judge.clone_problem %}
-            <div>
-                <form action="{{ url('problem_clone', problem.code) }}" method="post">
-                    {% csrf_token %}
-                     <a id="clone-link" href="#">{{ _('Clone problem') }}</a>
-                 </form>
-             </div>
-         {% endif %}
     </div>
 
     <div class="problem-info-entry">
