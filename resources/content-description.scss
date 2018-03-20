@@ -191,12 +191,8 @@
     }
 
     #content-left {
-        flex: 86%;
+        flex: 75%;
         width: 100%;
-
-        &.split-common-content {
-            max-width: 86%;
-        }
 
         .content-description {
             width: 100%;
@@ -204,11 +200,11 @@
     }
 
     #content-right {
-        flex: 14%;
+        flex: 25%;
         max-width: 12.5em;
         min-width: 8em;
-        padding-left: 1.5em;
-        padding-top: 1em;
+        padding-left: 16px;
+        padding-top: 16px;
 
         .info-float {
             float: none;

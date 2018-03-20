@@ -57,7 +57,7 @@
 {% endblock %}
 
 {% block body %}
-    <div id="common-content">
+    <div id="common-content" style="margin-bottom: 24px;">
         <div id="content-right">
             <div class="info-float">{% block info_float %}{% endblock %}</div>
         </div>
@@ -65,7 +65,6 @@
             <div class="content-description screen">
                 {% block description %}{% endblock %}
                 {% block description_end %}
-                    <hr>
                 {% endblock %}
                 {% block post_description_end %}{% endblock %}
             </div>
