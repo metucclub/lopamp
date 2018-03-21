@@ -56,8 +56,8 @@
 
 {% block body %}
     <br>
-    <div><a href="{{ url('submission_source', submission.id) }}">{{ _('View source') }}</a></div>
-    {% if request.user == submission.user.user or perms.judge.resubmit_other %}
+    <div><a href="{{ url('submission_source', submission.id) }}">Kaynağı gör</a></div>
+    {% if perms.judge.resubmit_other %}
         <div><a href="{{ url('problem_submit', submission.problem.code, submission.id) }}">{{ _('Resubmit') }}</a></div>
     {% endif %}
     {% if perms.judge.rejudge_submission %}
@@ -85,7 +85,7 @@
                 <br>
                 <form action="{{ url('submission_abort', submission.id) }}" method="post">
                     {% csrf_token %}
-                    <input style="float:left" type="submit" value="{{ _('Abort') }}" class="button">
+                    <input style="float:left" type="submit" value="İptal" class="button">
                     <br><br>
                 </form>
             </div>

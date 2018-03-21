@@ -2,12 +2,11 @@
 
 {% block header %}
     <span class="submission-info">
-        <span class="submission-date">{{ submission.date|date(_("N j, Y, g:i a")) }}
-            {%- if perms.judge.change_submission and submission.judged_on %}
-                on {{ submission.judged_on.name }}
-            {% endif %}
-            <br>
-            <span>{{ submission.language }}</span>
+        <span class="submission-date">
+                {{ submission.date|date(_("j/n/Y, G:i:s")) }}
+                {%- if perms.judge.change_submission and submission.judged_on %}
+                on {{ submission.judged_on.name }}{% endif %}<br>
+            <span>Dil: {{ submission.language }}</span>
             {% if perms.judge.change_submission %}
                 [<a href="{{ url('admin:judge_submission_change', submission.id) }}">{{ _('Admin') }}</a>]
             {% endif %}
