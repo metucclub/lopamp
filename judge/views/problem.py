@@ -1,3 +1,4 @@
+# coding: utf-8
 from __future__ import division
 
 import itertools
@@ -592,10 +593,10 @@ def problem_submit(request, problem=None, submission=None):
                 submissions_left = submission_limit - get_contest_submission_count(problem, profile)
     return render(request, 'problem/submit.html', {
         'form': form,
-        'title': _('Submit to %(problem)s') % {
+        'title': _(u'%(problem)s için çözüm gönder') % {
             'problem': problem_object.translated_name(request.LANGUAGE_CODE),
         },
-        'content_title': mark_safe(escape(_('Submit to %(problem)s')) % {
+        'content_title': mark_safe(escape(_(u'%(problem)s için çözüm gönder')) % {
             'problem': format_html(u'<a href="{0}">{1}</a>',
                                    reverse('problem_detail', args=[problem_object.code]),
                                    problem_object.translated_name(request.LANGUAGE_CODE))
