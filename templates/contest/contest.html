@@ -24,7 +24,7 @@
         <a href="https://www.timeanddate.com/worldclock/fixedtime.html?msg={{ contest.name|urlquote('') }}&amp;iso=
                 {{- contest.start_time|utc|date('Y-m-d\TH:i:s') }}" class="date">
                 {% if contest.start_time > now %}
-                    {# Yarışma {{- '%(countdown)s', countdown=contest.time_before_start|as_countdown) -}} içinde başlayacak. #}
+                    {{- _("Yarışmanın başlamasına %(countdown)s kaldı.", countdown=contest.time_before_start|as_countdown) -}}
                 {% elif contest.end_time < now %}
                     {{- _('Yarışma bitti.') -}}
                 {% else %}
