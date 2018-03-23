@@ -2,7 +2,7 @@
 <tr>
     <th class="header rank">Sıralama</th>
     {% block after_rank_head %}{% endblock %}
-    <th class="header username">Yarışmacı</th>
+    <th class="header username">Takım</th>
     {% block before_point_head %}{% endblock %}
 
     <th class="header points">
@@ -17,7 +17,7 @@
     <tr id="user-{{ user.user.username }}">
         <td>{{ rank }}</td>
         {% block after_rank scoped %}{% endblock %}
-        <td class="user-name">{{ user.user.username }}</td>
+        <td style="min-width: 100px; max-width: 200px;"><center>{{ user.user.profile.team_name }}</center></td>
         {% block before_point scoped %}{% endblock %}
         {% block point scoped %}
             <td title="{{ user.performance_points|floatformat(2) }}" class="user-points">

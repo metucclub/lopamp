@@ -49,7 +49,7 @@ urlpatterns = [
         url(r'^join$', contests.ContestJoin.as_view(), name='contest_join'),
 
         url(r'^submissions/', paged_list_view(submission.AllSubmissions, 'all_submissions')),
-        url(r'^submissions/user/(?P<user>\w+)/', paged_list_view(submission.AllUserSubmissions, 'all_user_submissions')),
+        url(r'^submissions/user/(?P<team_slug>[-\w]+)/', paged_list_view(submission.AllUserSubmissions, 'all_user_submissions')),
 
         url(r'^/$', lambda _, contest: HttpResponsePermanentRedirect(reverse('contest_view', args=[contest]))),
 
@@ -63,7 +63,7 @@ urlpatterns = [
         url(r'^/resubmit/(?P<submission>\d+)$', problem.problem_submit, name='problem_submit'),
 
         url(r'^/submissions/', paged_list_view(submission.ProblemSubmissions, 'chronological_submissions')),
-        url(r'^/submissions/(?P<user>\w+)/', paged_list_view(submission.UserProblemSubmissions, 'user_submissions')),
+        url(r'^/submissions/(?P<team_slug>[-\w]+)/', paged_list_view(submission.UserProblemSubmissions, 'user_submissions')),
         url(r'^/$', lambda _, problem: HttpResponsePermanentRedirect(reverse('problem_detail', args=[problem]))),
 
         url(r'^/test_data$', ProblemDataView.as_view(), name='problem_data'),
@@ -81,7 +81,7 @@ urlpatterns = [
         url(r'^/html$', submission.single_submission),
     ])),
 
-    url(r'^user/(?P<user>\w+)', include([
+    url(r'^user/(?P<team_slug>[-\w]+)', include([
         url(r'^/submissions/', paged_list_view(submission.AllUserSubmissions, 'all_user_submissions_old')),
         url(r'^/submissions/', lambda _, user: HttpResponsePermanentRedirect(reverse('all_user_submissions', args=[user]))),
     ])),

@@ -19,7 +19,7 @@
 </td>
 <td colspan="{{ info_colspan }}" class="sub-info{% if submission.status == 'G' %} sub-info-grading{% endif %}">
     {% if show_problem %}
-        <div class="name"><a href="{{ url('problem_detail', submission.problem.code) }}">{{ problem_name }}</a></div>
+        <div class="name" style="padding-bottom: 2px;"><a href="{{ url('problem_detail', submission.problem.code) }}">{{ problem_name }}</a></div>
     {% endif %}
     <div>
         {{ link_user(submission.user) }}

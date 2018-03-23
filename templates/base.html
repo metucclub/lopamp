@@ -183,7 +183,7 @@
 	</div>
 	<div class="nav-right">
 		{% if request.user.is_authenticated %}
-			<a href="{{ url("all_user_submissions", request.user) }}"><b>{{ request.user.username }}</b></a><form style="display:inline-block;" action="{{ url('auth_logout') }}" method="POST" id="logout">{% csrf_token %}<a href="#"onclick="document.getElementById('logout').submit();">Çıkış</a></form>
+			<a href="{{ url("all_user_submissions", request.user.profile.team_slug) }}"><b>{{ request.user.profile.team_name }}</b></a><form style="display:inline-block;" action="{{ url('auth_logout') }}" method="POST" id="logout">{% csrf_token %}<a href="#"onclick="document.getElementById('logout').submit();">Çıkış</a></form>
 			{% if request.user.is_superuser %}
 				<a href="{{ url("admin:index") }}">Admin</a>
 			{% endif %}
@@ -227,7 +227,7 @@
     <br>
     <main id="content" style="max-width: 1000px; margin: auto;">
         {% block title_row %}
-            <h2 style="color:#393630; display:inline">
+            <h2 style="color:#393630; display: inline-block; max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
                 {% block content_title %}
                     {% if content_title %}{{ content_title }}{% else %}{{ title }}{% endif %}
                 {% endblock %}

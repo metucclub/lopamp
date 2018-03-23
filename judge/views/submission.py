@@ -54,9 +54,9 @@ class SubmissionDetailBase(LoginRequiredMixin, TitleMixin, SubmissionMixin, Deta
 
     def get_title(self):
         submission = self.object
-        return _('Submission of %(problem)s by %(user)s') % {
+        return _("%(problem)s - %(user)s") % {
             'problem': submission.problem.translated_name(self.request.LANGUAGE_CODE),
-            'user': submission.user.user.username
+            'user': submission.user.user.profile.team_name
         }
 
     def get_content_title(self):
@@ -66,7 +66,7 @@ class SubmissionDetailBase(LoginRequiredMixin, TitleMixin, SubmissionMixin, Deta
                                    reverse('problem_detail', args=[submission.problem.code]),
                                    submission.problem.translated_name(self.request.LANGUAGE_CODE)),
             'user': format_html(u'{0}',
-                                submission.user.user.username),
+                                submission.user.user.profile.team_name),
         })
 
 
@@ -257,13 +257,14 @@ class SubmissionsListBase(DiggPaginatorMixin, TitleMixin, ListView):
 
         return super(SubmissionsListBase, self).get(request, *args, **kwargs)
 
-
+from django.contrib.auth.models import User
 class UserMixin(object):
     def get(self, request, *args, **kwargs):
-        if 'user' not in kwargs:
-            raise ImproperlyConfigured('Must pass a user')
-        self.profile = get_object_or_404(Profile, user__username=kwargs['user'])
-        self.username = kwargs['user']
+        if 'team_slug' not in kwargs:
+            raise ImproperlyConfigured('Must pass a team_slug')
+        self.profile = get_object_or_404(Profile, team_slug=kwargs["team_slug"])
+        self.user = self.profile.user
+        self.username = self.user.username
         return super(UserMixin, self).get(request, *args, **kwargs)
 
 
@@ -294,7 +295,8 @@ class AllUserSubmissions(ConditionalUserTabMixin, UserMixin, SubmissionsListBase
 
     def get_my_submissions_page(self):
         if self.request.user.is_authenticated:
-            return reverse('all_user_submissions', kwargs={'user': self.request.user.username})
+            return reverse('all_user_submissions',
+            			kwargs={'team_slug': self.request.user.profile.team_slug})
 
     def get_context_data(self, **kwargs):
         context = super(AllUserSubmissions, self).get_context_data(**kwargs)
@@ -356,7 +358,7 @@ class ProblemSubmissions(ProblemSubmissionsBase):
     def get_my_submissions_page(self):
         if self.request.user.is_authenticated:
             return reverse('user_submissions', kwargs={'problem': self.problem.code,
-                                                       'user': self.request.user.username})
+                                                       'team_slug': self.request.user.profile.team_slug})
 
 
 class UserProblemSubmissions(ConditionalUserTabMixin, UserMixin, ProblemSubmissions):
@@ -366,14 +368,14 @@ class UserProblemSubmissions(ConditionalUserTabMixin, UserMixin, ProblemSubmissi
     def get_title(self):
         if self.request.user.is_authenticated and self.request.user.profile == self.profile:
             return u"%s için gönderilerim" % self.problem_name
-        return u"%s için %s tarafından gönderilenler" % self.problem_name, self.username
+        return u"%s için %s tarafından gönderilenler" % (self.problem_name, self.profile.team_name)
 
     def get_content_title(self):
         if self.request.user.is_authenticated and self.request.user.profile == self.profile:
             return format_html(u"<a href='{1}'>{0}</a> için gönderilerim",
                                                    self.problem_name, reverse('problem_detail', args=[self.problem.code]))
         return format_html(u"<a href='{2}'>{1}</a> için {0} tarafından gönderilenler",
-                           self.username,
+                           self.profile.team_name,
                            self.problem_name, reverse('problem_detail', args=[self.problem.code]))
 
     def get_context_data(self, **kwargs):
@@ -409,7 +411,7 @@ def single_submission_query(request):
 class AllSubmissions(SubmissionsListBase):
     def get_my_submissions_page(self):
         if self.request.user.is_authenticated:
-            return reverse('all_user_submissions', kwargs={'user': self.request.user.username})
+            return reverse('all_user_submissions', kwargs={'team_slug': self.request.user.profile.team_slug})
 
     def get_context_data(self, **kwargs):
         context = super(AllSubmissions, self).get_context_data(**kwargs)
