@@ -183,12 +183,12 @@
 	</div>
 	<div class="nav-right">
 		{% if request.user.is_authenticated %}
-			<a href="{{ url("all_user_submissions", request.user) }}"><b>{{ request.user.username }}</b></a><form style="display:inline-block;" action="{{ url('auth_logout') }}" method="POST" id="logout">{% csrf_token %}<a href="#"onclick="document.getElementById('logout').submit();">Logout</a></form>
+			<a href="{{ url("all_user_submissions", request.user) }}"><b>{{ request.user.username }}</b></a><form style="display:inline-block;" action="{{ url('auth_logout') }}" method="POST" id="logout">{% csrf_token %}<a href="#"onclick="document.getElementById('logout').submit();">Çıkış</a></form>
 			{% if request.user.is_superuser %}
 				<a href="{{ url("admin:index") }}">Admin</a>
 			{% endif %}
 		{% else %}
-			<a href="{{ url("auth_login") }}">Login</a>
+			<a href="{{ url("auth_login") }}">Giriş</a>
 		{% endif %}
 	</div>
 </nav>

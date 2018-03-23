@@ -543,8 +543,9 @@ def get_contest_ranking_list(request, contest, participation=None, ranking_list=
     return users, problems
 
 
-def contest_ranking_ajax(request, contest, participation=None):
-    contest, exists = _find_contest(request, contest)
+def contest_ranking_ajax(request, participation=None):
+    contest = Contest.objects.all()[0]
+    exists = True
     if not exists:
         return HttpResponseBadRequest('Invalid contest', content_type='text/plain')
 
