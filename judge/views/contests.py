@@ -300,20 +300,20 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import login as auth_login
 class LoginContestJoin(LoginView):
     def form_valid(self, form):
-        """Join the first contest automatically on login."""
+        """Join the first contest automatically on login. Don't login if no such ongoing contest."""
+        contest = Contest.objects.all()[0]  
         user = form.get_user()
+
+        if not contest.can_join and not user.is_superuser:
+            return generic_message(self.request, u"Yarışma henüz başlamadı.", "")
+
         auth_login(self.request, user)
-        contest = Contest.objects.all()[0]
-
-        if not contest.can_join and not self.is_organizer:
-            return generic_message(request, "Bir hata oluştu", "Yarışma henüz başlamadı.")
-
         profile = user.profile
         if profile.current_contest is not None:
             return HttpResponseRedirect(self.get_success_url())
 
         if contest.ended:
-            return generic_message(request, "Bir hata oluştu", "Yarışma bitti.")
+            return generic_message(self.request, u"Yarışma bitti.", "")
         else:
             try:
                 participation = ContestParticipation.objects.get(
