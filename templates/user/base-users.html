@@ -68,9 +68,20 @@
                 </div>
             {% endif %}
 
-            <table class="table">
+            <table class="table {% if contest.ended %}ended-table{% endif %}">
                 {% block users_table %}{% endblock %}
             </table>
+
+	<style>
+		.ended-table tr:nth-of-type(-n+18) {
+		    background-color: rgba(0, 255, 0, 0.1);
+		}
+
+		.ended-table tr:nth-of-type(n+18):nth-of-type(-n+34) {
+		    background-color: rgba(255, 0, 255, 0.1);
+		}
+	</style>
+
 
             {% if page_obj and page_obj.num_pages > 1 %}
                 <div style="margin-top:10px;">{% include "list-pages.html" %}</div>
