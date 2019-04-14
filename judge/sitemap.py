@@ -24,7 +24,7 @@ class UserSitemap(Sitemap):
         return User.objects.values_list('username')
 
     def location(self, obj):
-        return reverse('user_page', args=obj)
+        return reverse('contest_view') # reverse('user_page', args=obj)
 
 
 class ContestSitemap(Sitemap):

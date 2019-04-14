@@ -28,11 +28,7 @@
                                        class="downvote-link fa fa-chevron-down fa-fw"></a>
                                 {% endif %}
                             </div>
-                            {% with author=node.author, user=node.author.user %}
-                                <a href="{{ url('user_page', user.username) }}" class="user">
-                                    <img src="{{ gravatar(author, 135) }}" class="gravatar">
-                                </a>
-                            {% endwith %}
+
                         </div>
                         <div class="detail">
                             <div class="header">

@@ -21,7 +21,7 @@ def get_user(username, data):
         return element
 
     element = Element('span', {'class': Profile.get_user_css_class(*data)})
-    link = Element('a', {'href': reverse('user_page', args=[username])})
+    link = Element('a', {'href': reverse('contest_view')}) # reverse('user_page', args=[username])
     link.text = username
     element.append(link)
     return element
@@ -34,7 +34,7 @@ def get_user_rating(username, data):
         return element
 
     rating = data[1]
-    element = Element('a', {'class': 'rate-group', 'href': reverse('user_page', args=[username])})
+    element = Element('a', {'class': 'rate-group', 'href': reverse('contest_view')}) # reverse('user_page', args=[username])
     if rating:
         rating_css = rating_class(rating)
         rate_box = Element('span', {'class': 'rate-box ' + rating_css})

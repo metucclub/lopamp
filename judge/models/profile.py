@@ -149,7 +149,7 @@ class Profile(models.Model):
     update_contest.alters_data = True
 
     def get_absolute_url(self):
-        return reverse('user_page', args=(self.user.username,))
+        return reverse('contest_view') # reverse('user_page', args=(self.user.username,))
 
     def __unicode__(self):
         return self.user.username

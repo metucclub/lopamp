@@ -460,11 +460,11 @@ class UserContestSubmissions(ForceContestMixin, UserProblemSubmissions):
         if self.problem.is_accessible_by(self.request.user):
             return format_html(_(u'<a href="{1}">{0}</a>\'s submissions for '
                                  u'<a href="{3}">{2}</a> in <a href="{5}">{4}</a>'),
-                               self.username, reverse('user_page', args=[self.username]),
+                               self.username, reverse('contest_view') , #reverse('user_page', args=[self.username])
                                self.problem_name, reverse('problem_detail', args=[self.problem.code]),
                                self.contest.name, reverse('contest_view', args=[self.contest.key]))
         return format_html(_(u'<a href="{1}">{0}</a>\'s submissions for '
                              u'problem {2} in <a href="{4}">{3}</a>'),
-                           self.username, reverse('user_page', args=[self.username]),
+                           self.username, reverse('contest_view') , #reverse('user_page', args=[self.username])
                            self.get_problem_number(self.problem),
                            self.contest.name, reverse('contest_view', args=[self.contest.key]))

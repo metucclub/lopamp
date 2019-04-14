@@ -26,11 +26,12 @@ class Command(BaseCommand):
 	usernames are the email address of the team captain.
 	"""
 
-	print "removing all users except whirlpool..."
-	for u in User.objects.exclude(username="whirlpool"): u.delete()
+	print "removing all users except superusers..."
+	for u in User.objects.exclude(is_superuser=True): u.delete()
 
 	def handle(self, *args, **options):
-		f = open("/home/whirlpool/valid.csv", "rb")
+		f = open('/app/data/in.csv', "rb")
+
 		out = []
 		mails = []
 		for row in list(csv.DictReader(f)):
@@ -70,6 +71,9 @@ class Command(BaseCommand):
 					"passwd": passwd})
 
 		f.close()
-		g = open("peoplegen.out", "w")
-		json.dump(out, g)
+		g = open('/app/data/out.json', "w")
+
+		g.write(json.dumps(out, ensure_ascii=False).encode('utf8'))
+
+		# json.dump(out, g)
 		g.close()
