@@ -32,9 +32,9 @@
                 {% endif %}
         </a>
     </div>
-
+    <!-- cache -->
     <div class="content-description" style="margin-bottom: 24px;">
-        {% cache 3600 'contest_html' contest.id MATH_ENGINE %}
+        {% cache 3600 'contest_html' contest.id MATH_ENGINE contest.description %}
             {{ contest.description|markdown('contest', MATH_ENGINE)|reference|str|safe }}
         {% endcache %}
     </div>

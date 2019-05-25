@@ -301,7 +301,7 @@ from django.contrib.auth import login as auth_login
 class LoginContestJoin(LoginView):
     def form_valid(self, form):
         """Join the first contest automatically on login. Don't login if no such ongoing contest."""
-        contest = Contest.objects.all()[0]  
+        contest = Contest.objects.all()[0]
         user = form.get_user()
 
         if not contest.can_join and not user.is_superuser:
@@ -527,7 +527,7 @@ def get_contest_ranking_list(request, contest, participation=None, ranking_list=
                              show_current_virtual=True, ranker=ranker):
     problems = list(contest.contest_problems.select_related('problem').defer('problem__description').order_by('order'))
 
-    if contest.hide_scoreboard and contest.is_in_contest(request):
+    if not request.user.is_superuser and contest.hide_scoreboard and contest.is_in_contest(request):
         return [(_('???'), get_participation_ranking_profile(contest,
                                                              request.user.profile.current_contest, problems))], problems
 

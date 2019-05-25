@@ -14,7 +14,7 @@
 
 <tbody>
 {% for rank, user in users %}
-    <tr id="user-{{ user.user.username }}">
+    <tr id="user-{{ user.long_display_name }}">
         <td>{{ rank }}</td>
         {% block after_rank scoped %}{% endblock %}
         <td style="min-width: 100px; max-width: 200px;"><center>{{ user.user.profile.team_name }}</center></td>
