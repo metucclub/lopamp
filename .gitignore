@@ -5,9 +5,14 @@
 *.py[co]
 *.mo
 *~
+*.log
 dmoj/local_settings.py
 resources/style.css
 resources/content-description.css
 resources/ranks.css
 resources/table.css
-sass_processed
+sass_processed/
+static/
+node_modules/
+env/
+ENV/
