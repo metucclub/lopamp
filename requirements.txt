@@ -29,3 +29,7 @@ pymoss
 packaging
 celery
 PyMySQL
+django_select2<7
+websocket-client
+unicodecsv
+django-rosetta

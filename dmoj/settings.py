@@ -131,8 +131,8 @@ INSTALLED_APPS += (
     'registration',
     'mptt',
     'reversion',
-    'django_social_share',
-    'social_django',
+    # 'django_social_share',
+    # 'social_django',
     'compressor',
     'django_ace',
     'pagedown',
@@ -140,6 +140,7 @@ INSTALLED_APPS += (
     'statici18n',
     'impersonate',
     'django_jinja',
+    'django_select2',
 )
 
 MIDDLEWARE = (
@@ -248,19 +249,19 @@ LOCALE_PATHS = [
 ]
 
 LANGUAGES = [
-    ('de', _('German')),
+    # ('de', _('German')),
     ('en', _('English')),
-    ('es', _('Spanish')),
-    ('fr', _('French')),
-    ('hr', _('Croatian')),
-    ('hu', _('Hungarian')),
-    ('ko', _('Korean')),
-    ('ro', _('Romanian')),
-    ('ru', _('Russian')),
-    ('sr-latn', _('Serbian (Latin)')),
+    # ('es', _('Spanish')),
+    # ('fr', _('French')),
+    # ('hr', _('Croatian')),
+    # ('hu', _('Hungarian')),
+    # ('ko', _('Korean')),
+    # ('ro', _('Romanian')),
+    # ('ru', _('Russian')),
+    # ('sr-latn', _('Serbian (Latin)')),
     ('tr', _('Turkish')),
-    ('vi', _('Vietnamese')),
-    ('zh-hans', _('Simplified Chinese')),
+    # ('vi', _('Vietnamese')),
+    # ('zh-hans', _('Simplified Chinese')),
 ]
 
 MARKDOWN_ADMIN_EDITABLE_STYLE = {
@@ -363,6 +364,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+"""
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
@@ -383,6 +385,7 @@ SOCIAL_AUTH_GITHUB_SECURE_SCOPE = ['user:email']
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_SLUGIFY_USERNAMES = True
 SOCIAL_AUTH_SLUGIFY_FUNCTION = 'judge.social_auth.slugify_username'
+"""
 
 JUDGE_AMQP_PATH = None
 
