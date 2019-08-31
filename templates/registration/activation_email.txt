@@ -1,9 +1,7 @@
-Please activate your {{ site.name }} account in {{ expiration_days }} days.
+{%- trans -%}
+Thanks for registering on {{ SITE_NAME }}! We're glad to have you.
 
-Please click on the following link to activate your account:
-    http://{{ site.domain }}/accounts/activate/{{ activation_key }}/
+Please activate your account by clicking the link below.
+{%- endtrans %}
 
-Alternatively, you can reply to this message to activate your account.
-Your reply must keep the following text intact for this to work:
-
-{{ activation_key }}
+{{ request.build_absolute_uri(url('registration_activate', activation_key)) }}

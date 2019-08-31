@@ -1,1 +1,3 @@
-Activate your {{ SITE_NAME }} account
+{%- trans -%}
+{{ SITE_NAME }}: Activate your account
+{%- endtrans -%}
