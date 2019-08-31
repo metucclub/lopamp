@@ -9,9 +9,6 @@ from django.conf import settings
 from django.forms.utils import flatatt
 from django.utils.safestring import mark_safe
 
-ACE_URL = getattr(settings, 'ACE_URL', '//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ext-split.js')
-
-
 class AceWidget(forms.Textarea):
     def __init__(self, mode=None, theme=None, wordwrap=False, width='100%', height='300px',
                  no_ace_media=False, *args, **kwargs):
@@ -25,7 +22,7 @@ class AceWidget(forms.Textarea):
 
     @property
     def media(self):
-        js = [urljoin(ACE_URL, 'ace.js')] if self.ace_media else []
+        js = ['libs/ace/ace.js'] if self.ace_media else []
         js.append('django_ace/widget.js')
         css = {
             'screen': ['django_ace/widget.css'],

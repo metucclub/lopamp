@@ -3,13 +3,16 @@
 <head>
     <title>{% block title %}{{ title }} - {{ SITE_LONG_NAME }}{% endblock %}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    {% if misc_config.meta_keywords %}
+    
+	{% if misc_config.meta_keywords %}
         <meta name="keywords" content="{{ misc_config.meta_keywords }}">
     {% endif %}
-    {% if meta_description %}
+    
+	{% if meta_description %}
         <meta name="description" content="{{ meta_description }}">
     {% endif %}
-    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1">
+    
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicons-->
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
@@ -27,38 +30,40 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="msapplication-TileColor" content="#FFBB33">
     <meta name="msapplication-TileImage" content="/mstile-144x144.png">
-    {# Chrome 39 for Android colour #}
+    
+	{# Chrome 39 for Android colour #}
     <meta name="theme-color" content="#FFBB33">
     {% if og_image %}
         <meta property="og:image" content="{{ request.build_absolute_uri(og_image) }}">
     {% endif %}
-    {% block og_title %}{% endblock %}
-    <meta property="og:site_name" content="{{ SITE_LONG_NAME }}">
+    
+	{% block og_title %}{% endblock %}
+    
+	<meta property="og:site_name" content="{{ SITE_LONG_NAME }}">
     <meta property="og:url"
           content="{{ DMOJ_SCHEME }}://{{ DMOJ_CANONICAL|default(site.domain) }}{{ request.get_full_path() }}">
     {% if meta_description %}
         <meta property="og:description" content="{{ meta_description }}">
     {% endif %}
-    <!--[if lt IE 9]>
+    
+	<!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script>window.bad_browser = true</script>
     <![endif]-->
     {% block meta %}{% endblock %}
-    {% if not INLINE_FONTAWESOME %}
-        <link rel="stylesheet" href="{{ FONTAWESOME_CSS }}">
-    {% endif %}
-    {% compress css %}
+    
+	{% compress css %}
         <link rel="stylesheet" href="{{ static('style.css') }}">
         {% if PYGMENT_THEME %}
             <link rel="stylesheet" href="{{ static(PYGMENT_THEME) }}">
-        {% endif %}{% if INLINE_FONTAWESOME %}
-        <link rel="stylesheet" href="{{ static('libs/fontawesome/font-awesome.css') }}">{% endif %}
+        {% endif %}
+        <link rel="stylesheet" href="{{ static('libs/fontawesome/css/font-awesome.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ static('libs/featherlight/featherlight.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ static('libs/clipboard/tooltip.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ static('libs/select2/select2.css') }}">
     {% endcompress %}
-    <link rel="canonical"
-          href="{{ DMOJ_SCHEME }}://{{ DMOJ_CANONICAL|default(site.domain) }}{{ request.get_full_path() }}">
+
+    <link rel="canonical" href="{{ DMOJ_SCHEME }}://{{ DMOJ_CANONICAL|default(site.domain) }}{{ request.get_full_path() }}">
     {% if request.user.is_impersonate %}
         <style>
             #nav-container {
@@ -66,25 +71,22 @@
             }
         </style>
     {% endif %}
-    {% block media %}{% endblock %}
-    {% if not INLINE_JQUERY %}
-        <script src="{{ JQUERY_JS }}"></script>
-    {% endif %}
 
+    {% block media %}{% endblock %}
+    
     {% compress js %}
         <script>{{ inlinei18n(LANGUAGE_CODE)|safe }}</script>
-        {% if INLINE_JQUERY %}
-            <script src="{{ static('libs/jquery-1.11.2.min.js') }}"></script>
-        {% endif %}
+        <script src="{{ static('libs/jquery-3.4.1.min.js') }}"></script>
         <script src="{{ static('libs/jquery-cookie.js') }}"></script>
         <script src="{{ static('libs/jquery-taphold.js') }}"></script>
         <script src="{{ static('libs/jquery.unveil.js') }}"></script>
-        <script src="{{ static('libs/moment.js') }}"></script>
+        <script src="{{ static('libs/moment-with-locales.min.js') }}"></script>
         <script src="{{ static('libs/select2/select2.js') }}"></script>
         {% include "extra_js.html" %}
         <script src="{{ static('common.js') }}"></script>
         <script>
             moment.locale('{{ LANGUAGE_CODE }}');
+
             $(function () {
                 $('img.unveil').unveil(200);
             });
