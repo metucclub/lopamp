@@ -13,7 +13,6 @@ import judge.models.problem_data
 import judge.models.profile
 import judge.utils.problem_data
 import mptt.fields
-import sortedm2m.fields
 
 
 class Migration(migrations.Migration):
@@ -466,7 +465,7 @@ class Migration(migrations.Migration):
                 ('notes', models.TextField(blank=True, help_text='Notes for administrators regarding this user.', null=True, verbose_name='internal notes')),
                 ('current_contest', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='judge.ContestParticipation', verbose_name='current contest')),
                 ('language', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='judge.Language', verbose_name='preferred language')),
-                ('organizations', sortedm2m.fields.SortedManyToManyField(blank=True, help_text=None, related_name='members', related_query_name='member', to='judge.Organization', verbose_name='organization')),
+                ('organizations', models.ManyToManyField(blank=True, help_text=None, related_name='members', related_query_name='member', to='judge.Organization', verbose_name='organization')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='user associated')),
             ],
             options={
