@@ -4,6 +4,8 @@ from django.template.loader import get_template
 from django.utils.encoding import force_text
 from django.utils.html import conditional_escape
 
+from sass_processor.processor import sass_processor
+
 from judge.widgets.mixins import CompressorWidgetMixin
 
 __all__ = ['PagedownWidget', 'AdminPagedownWidget',
@@ -35,7 +37,7 @@ else:
     class AdminPagedownWidget(PagedownWidget, admin_widgets.AdminTextareaWidget):
         class Media:
             css = {'all': [
-                'content-description.css',
+                sass_processor('content-description.scss'),
                 'admin/css/pagedown.css',
             ]}
             js = ['admin/js/pagedown.js']
@@ -91,6 +93,6 @@ else:
         class Media:
             css = {'all': [
                 'pygment-github.css',
-                'table.css',
-                'ranks.css',
+                sass_processor('table.scss'),
+                sass_processor('ranks.scss'),
             ]}

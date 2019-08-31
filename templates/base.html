@@ -53,7 +53,7 @@
     {% block meta %}{% endblock %}
     
 	{% compress css %}
-        <link rel="stylesheet" href="{{ static('style.css') }}">
+        <link rel="stylesheet" href="{% sass_src('style.scss') %}">
         {% if PYGMENT_THEME %}
             <link rel="stylesheet" href="{{ static(PYGMENT_THEME) }}">
         {% endif %}
