@@ -32,9 +32,6 @@
         <table>{% for case in batch.cases %}
             <tr id="{{ case.id }}" class="case-row toggle closed">
                 <td>
-                    {%- if case.status != 'AC' and case.output and (prefix_length is none or prefix_length > 0) -%}
-                        <i class="fa fa-chevron-right fa-fw"></i>
-                    {%- endif -%}
                     {%- if batch.id -%}
                         <b>{{ _('Case') }} #{{ loop.index }}:</b>
                     {%- elif is_pretest -%}

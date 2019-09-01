@@ -1,6 +1,5 @@
 {% extends "common-content.html" %}
 {% block content_media %}
-    {% include "comments/media-css.html" %}
     <style>
         .title-state {
             font-size: 2em;
@@ -45,7 +44,6 @@
 {% endblock %}
 
 {% block content_js_media %}
-    {% include "comments/media-js.html" %}
     <script>
         $(function () {
             $('a#clone-link').click(function (event) {
@@ -59,25 +57,6 @@
 
 {% block title_row %}
     <div class="problem-title">
-        {% if request.user.is_authenticated %}
-            {% if problem.id in completed_problem_ids %}
-                <a href="{{ url('user_submissions', problem.code, request.user.username) }}">
-                    {% if problem.is_public or request.in_contest %}
-                        <i class="solved-problem-color title-state fa fa-check-circle"></i>
-                    {% else %}
-                        <i class="solved-problem-color title-state fa fa-lock"></i>
-                    {% endif %}
-                </a>
-            {% elif problem.id in attempted_problems %}
-                <a href="{{ url('user_submissions', problem.code, request.user.username) }}">
-                    {% if problem.is_public or request.in_contest %}
-                        <i class="attempted-problem-color title-state fa fa-minus-circle"></i>
-                    {% else %}
-                        <i class="attempted-problem-color title-state fa fa-lock"></i>
-                    {% endif %}
-                </a>
-            {% endif %}
-        {% endif %}
         <h2 style="color:#393630; display: inline-block">{{ title }}</h2>
         {% if problem.is_organization_private %}
             <span class="organization-tags">
@@ -90,7 +69,6 @@
                 {% endfor %}
             </span>
         {% endif %}
-        {{has_pdf_render}}
         {% if has_pdf_render %}
             <span class="spacer"></span>
             <a href="{{ url('problem_pdf', problem.code) }}" class="view-pdf">
@@ -298,5 +276,4 @@
 
 {% block bodyend %}
     {{ super() }}
-    {% include "comments/math.html" %}
 {% endblock %}
