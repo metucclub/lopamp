@@ -49,7 +49,7 @@ register_patterns = [
         template_name='registration/login.html',
         extra_context={
             'title': _('Login'),
-            'next': reverse_lazy("contest_list") # user_page
+            'next': reverse_lazy('home'),
         },
         authentication_form=CustomAuthenticationForm,
     ), name='auth_login'),

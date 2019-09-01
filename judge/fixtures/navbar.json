@@ -1,5 +1,4 @@
-[
-    {
+[{
         "fields": {
             "key": "problems",
             "label": "Problems",
@@ -33,22 +32,6 @@
     },
     {
         "fields": {
-            "key": "user",
-            "label": "Users",
-            "level": 0,
-            "lft": 1,
-            "order": 3,
-            "parent": null,
-            "path": "/users/",
-            "regex": "^/user",
-            "rght": 2,
-            "tree_id": 3
-        },
-        "model": "judge.navigationbar",
-        "pk": 3
-    },
-    {
-        "fields": {
             "key": "contest",
             "label": "Contests",
             "level": 0,
@@ -78,21 +61,5 @@
         },
         "model": "judge.navigationbar",
         "pk": 6
-    },
-    {
-        "fields": {
-            "key": "status",
-            "label": "Status",
-            "level": 1,
-            "lft": 2,
-            "order": 7,
-            "parent": 6,
-            "path": "/status/",
-            "regex": "^/status/$|^/judge/",
-            "rght": 3,
-            "tree_id": 5
-        },
-        "model": "judge.navigationbar",
-        "pk": 7
     }
 ]

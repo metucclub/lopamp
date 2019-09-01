@@ -90,6 +90,7 @@
                 {% endfor %}
             </span>
         {% endif %}
+        {{has_pdf_render}}
         {% if has_pdf_render %}
             <span class="spacer"></span>
             <a href="{{ url('problem_pdf', problem.code) }}" class="view-pdf">

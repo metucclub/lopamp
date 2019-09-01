@@ -104,8 +104,8 @@ class Problem(models.Model):
     testers = models.ManyToManyField(Profile, verbose_name=_('testers'), blank=True, related_name='tested_problems',
                                      help_text=_(
                                          'These users will be able to view a private problem, but not edit it.'))
-    types = models.ManyToManyField(ProblemType, verbose_name=_('problem types'))
-    group = models.ForeignKey(ProblemGroup, verbose_name=_('problem group'), on_delete=CASCADE)
+    types = models.ManyToManyField(ProblemType, verbose_name=_('problem types'), blank=True)
+    group = models.ForeignKey(ProblemGroup, verbose_name=_('problem group'), null=True, blank=True, on_delete=CASCADE)
     time_limit = models.FloatField(verbose_name=_('time limit'),
                                    help_text=_('The time limit for this problem, in seconds. '
                                                'Fractional seconds (e.g. 1.5) are supported.'))

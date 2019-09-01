@@ -27,7 +27,6 @@ HAS_EXIFTOOL = os.access(EXIFTOOL, os.X_OK)
 
 logger = logging.getLogger('judge.problem.pdf')
 
-
 class BasePdfMaker(object):
     math_engine = 'jax'
     title = None
