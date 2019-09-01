@@ -389,6 +389,8 @@ SOCIAL_AUTH_SLUGIFY_USERNAMES = True
 SOCIAL_AUTH_SLUGIFY_FUNCTION = 'judge.social_auth.slugify_username'
 """
 
+USE_RECAPTCHA = False
+
 JUDGE_AMQP_PATH = None
 
 MOSS_API_KEY = None
