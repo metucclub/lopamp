@@ -139,7 +139,7 @@ label[for="language"], label[for="status"] {
 #content-right.submission {
     flex: 12%;
     min-width: initial;
-    max-width: 100%;
+    max-width: 235px;
     padding-top: 2.25em;
 }
 
@@ -277,14 +277,6 @@ label[for="language"], label[for="status"] {
 
     .toggle {
         font-weight: normal;
-    }
-
-    .case-feedback {
-        vertical-align: top;
-    }
-
-    .case-ext-feedback {
-        width: 50%;
     }
 }
 
