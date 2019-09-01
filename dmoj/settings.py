@@ -160,18 +160,18 @@ IMPERSONATE_DISABLE_LOGGING = True
 ACCOUNT_ACTIVATION_DAYS = 7
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'judge.utils.pwned.PwnedPasswordsValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+	{
+		'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+	},
+	{
+		'NAME': 'judge.utils.pwned.PwnedPasswordsValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+	},
 ]
 
 SILENCED_SYSTEM_CHECKS = ['urls.W002', 'fields.W342']
@@ -238,7 +238,7 @@ TEMPLATES = [
 ]
 
 LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale'),
+	os.path.join(BASE_DIR, 'locale'),
 ]
 
 LANGUAGES = [
@@ -258,17 +258,17 @@ LANGUAGES = [
 ]
 
 MARKDOWN_ADMIN_EDITABLE_STYLE = {
-    'safe_mode': False,
-    'use_camo': True,
-    'texoid': True,
-    'math': True,
+	'safe_mode': False,
+	'use_camo': True,
+	'texoid': True,
+	'math': True,
 }
 
 MARKDOWN_DEFAULT_STYLE = {
-    'safe_mode': True,
-    'nofollow': True,
-    'use_camo': True,
-    'math': True,
+	'safe_mode': True,
+	'nofollow': True,
+	'use_camo': True,
+	'math': True,
 }
 
 MARKDOWN_USER_LARGE_STYLE = {
@@ -279,28 +279,28 @@ MARKDOWN_USER_LARGE_STYLE = {
 }
 
 MARKDOWN_STYLES = {
-    'comment': MARKDOWN_DEFAULT_STYLE,
-    'self-description': MARKDOWN_USER_LARGE_STYLE,
-    'problem': MARKDOWN_ADMIN_EDITABLE_STYLE,
-    'contest': MARKDOWN_ADMIN_EDITABLE_STYLE,
-    'language': MARKDOWN_ADMIN_EDITABLE_STYLE,
-    'license': MARKDOWN_ADMIN_EDITABLE_STYLE,
-    'judge': MARKDOWN_ADMIN_EDITABLE_STYLE,
-    'blog': MARKDOWN_ADMIN_EDITABLE_STYLE,
-    'solution': MARKDOWN_ADMIN_EDITABLE_STYLE,
-    'contest_tag': MARKDOWN_ADMIN_EDITABLE_STYLE,
-    'organization-about': MARKDOWN_USER_LARGE_STYLE,
-    'ticket': MARKDOWN_USER_LARGE_STYLE,
+	'comment': MARKDOWN_DEFAULT_STYLE,
+	'self-description': MARKDOWN_USER_LARGE_STYLE,
+	'problem': MARKDOWN_ADMIN_EDITABLE_STYLE,
+	'contest': MARKDOWN_ADMIN_EDITABLE_STYLE,
+	'language': MARKDOWN_ADMIN_EDITABLE_STYLE,
+	'license': MARKDOWN_ADMIN_EDITABLE_STYLE,
+	'judge': MARKDOWN_ADMIN_EDITABLE_STYLE,
+	'blog': MARKDOWN_ADMIN_EDITABLE_STYLE,
+	'solution': MARKDOWN_ADMIN_EDITABLE_STYLE,
+	'contest_tag': MARKDOWN_ADMIN_EDITABLE_STYLE,
+	'organization-about': MARKDOWN_USER_LARGE_STYLE,
+	'ticket': MARKDOWN_USER_LARGE_STYLE,
 }
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+	'default': {
+		'ENGINE': 'django.db.backends.sqlite3',
+		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+	}
 }
 
 ENABLE_FTS = False
@@ -337,11 +337,11 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 DMOJ_RESOURCES = os.path.join(BASE_DIR, 'resources')
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+	'django.contrib.staticfiles.finders.FileSystemFinder',
+	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'resources'),
+	os.path.join(BASE_DIR, 'resources'),
 ]
 STATIC_URL = '/static/'
 
@@ -350,28 +350,28 @@ CACHES = {}
 
 # Authentication
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.dropbox.DropboxOAuth2',
-    'social_core.backends.facebook.FacebookOAuth2',
-    'judge.social_auth.GitHubSecureEmailOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
+	'social_core.backends.google.GoogleOAuth2',
+	'social_core.backends.dropbox.DropboxOAuth2',
+	'social_core.backends.facebook.FacebookOAuth2',
+	'judge.social_auth.GitHubSecureEmailOAuth2',
+	'django.contrib.auth.backends.ModelBackend',
 )
 
 """
 SOCIAL_AUTH_PIPELINE = (
-    'social_core.pipeline.social_auth.social_details',
-    'social_core.pipeline.social_auth.social_uid',
-    'social_core.pipeline.social_auth.auth_allowed',
-    'judge.social_auth.verify_email',
-    'social_core.pipeline.social_auth.social_user',
-    'social_core.pipeline.user.get_username',
-    'social_core.pipeline.social_auth.associate_by_email',
-    'judge.social_auth.choose_username',
-    'social_core.pipeline.user.create_user',
-    'judge.social_auth.make_profile',
-    'social_core.pipeline.social_auth.associate_user',
-    'social_core.pipeline.social_auth.load_extra_data',
-    'social_core.pipeline.user.user_details'
+	'social_core.pipeline.social_auth.social_details',
+	'social_core.pipeline.social_auth.social_uid',
+	'social_core.pipeline.social_auth.auth_allowed',
+	'judge.social_auth.verify_email',
+	'social_core.pipeline.social_auth.social_user',
+	'social_core.pipeline.user.get_username',
+	'social_core.pipeline.social_auth.associate_by_email',
+	'judge.social_auth.choose_username',
+	'social_core.pipeline.user.create_user',
+	'judge.social_auth.make_profile',
+	'social_core.pipeline.social_auth.associate_user',
+	'social_core.pipeline.social_auth.load_extra_data',
+	'social_core.pipeline.user.user_details'
 )
 
 SOCIAL_AUTH_GITHUB_SECURE_SCOPE = ['user:email']
@@ -392,4 +392,4 @@ try:
     with open(os.path.join(os.path.dirname(__file__), 'local_settings.py')) as f:
         exec(f.read(), globals())
 except IOError:
-    pass
+	pass

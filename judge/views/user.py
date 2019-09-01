@@ -283,7 +283,7 @@ user_list_view = UserList.as_view()
 
 class FixedContestRanking(ContestRanking):
     contest = None
-    
+
     def get_object(self, queryset=None):
         return self.contest
 

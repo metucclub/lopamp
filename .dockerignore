@@ -1,0 +1,13 @@
+.idea
+.vscode
+.sass-cache
+*.sqlite3
+*.py[co]
+*.mo
+*~
+*.log
+dmoj/local_settings.py
+ENV/
+env/
+node_modules/
+static/

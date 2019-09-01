@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.sitemaps.views import sitemap
 from django.http import HttpResponsePermanentRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
 from judge.feed import CommentFeed, AtomCommentFeed, BlogFeed, AtomBlogFeed, ProblemFeed, AtomProblemFeed
@@ -35,7 +35,7 @@ register_patterns = [
         ActivationView.as_view(title=_('Activation key invalid')),
         name='registration_activate'),
     url(r'^register/$',
-        RegistrationView.as_view(title='Register'),
+        RegistrationView.as_view(title=_('Register')),
         name='registration_register'),
     url(r'^register/complete/$',
         TitledTemplateView.as_view(template_name='registration/registration_complete.html',
@@ -47,7 +47,10 @@ register_patterns = [
         name='registration_disallowed'),
     url(r'^login/$', auth_views.LoginView.as_view(
         template_name='registration/login.html',
-        extra_context={'title': _('Login')},
+        extra_context={
+            'title': _('Login'),
+            'next': reverse_lazy("contest_list") # user_page
+        },
         authentication_form=CustomAuthenticationForm,
     ), name='auth_login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='auth_logout'),

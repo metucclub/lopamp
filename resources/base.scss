@@ -171,12 +171,13 @@ header {
     color: $nav_link_hover_color;
     line-height: $nav_height;
     height: $nav_height;
-    
+
     .avatar-img {
         float: left;
         margin: $nav_avatar_margin;
         height: $nav_height - 2*$nav_avatar_margin;
     }
+
     .hello {
         float: left;
         display: inline-block;
@@ -188,11 +189,11 @@ header {
         height: $nav_height;
 
         &:hover {
-                color: $nav_link_hover_color;
+            color: $nav_link_hover_color;
         }
 
         &:active {
-                color: $nav_link_active_color;
+            color: $nav_link_active_color;
         }
     }
 
@@ -205,6 +206,7 @@ header {
         background: $widget_bg;
         margin: 0 (-$nav_gutter) 0 0;
         padding: 0;
+
         li {
             margin: 0 $nav_gutter;
             display: block;
@@ -239,7 +241,8 @@ nav {
     }
 
     #nav-list {
-        margin: 0; padding: 0;
+        margin: 0;
+        padding: 0;
         text-align: left;
         display: block;
         height: $nav_height;
@@ -250,12 +253,13 @@ nav {
             vertical-align: bottom;
             display: inline-block;
             line-height: $nav_height;
-        }    
+        }
 
         .logo-img {
             margin: $nav_logo_margin;
             height: $nav_height - 2*$nav_logo_margin;
         }
+
         .logo-text {
             margin-left: 4px;
             font-weight: 700;
@@ -276,7 +280,8 @@ nav {
                 }
             }
 
-            a, button {
+            a,
+            button {
                 text-decoration: none;
                 color: $nav_link_color;
                 padding: 0px $nav_gutter + $nav_logo_margin;
@@ -396,7 +401,8 @@ noscript #noscript {
     }
 }
 
-#form-errors, .form-errors {
+#form-errors,
+.form-errors {
     background: rgba(255, 0, 0, 0.3);
     border: 3px solid red;
     border-radius: $widget_border_radius;
@@ -563,7 +569,7 @@ math {
                 display: none;
             }
 
-            &:not(:hover) > ul {
+            &:not(:hover)>ul {
                 display: none !important;
             }
 

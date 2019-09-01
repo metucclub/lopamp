@@ -141,11 +141,6 @@
     {% endif %}
     {% if can_edit_problem %}
         <hr>
-        <div>
-            <a href="{{ url('problem_ticket_list', problem.code) }}">{{ _('Manage tickets') }}
-                {% if num_open_tickets %}<span class="badge">{{ num_open_tickets }}</span>{% endif %}
-            </a>
-        </div>
         <div><a href="{{ url('admin:judge_problem_change', problem.id) }}">{{ _('Edit problem') }}</a></div>
         {% if not problem.is_manually_managed %}
             <div><a href="{{ url('problem_data', problem.code) }}">{{ _('Edit test data') }}</a></div>
@@ -228,7 +223,6 @@
             {% endif %}
         {% endwith %}
     {% endcache %}
-
     {% if show_languages %}
         <div id="allowed-langs">
             <div class="toggle open unselectable">q

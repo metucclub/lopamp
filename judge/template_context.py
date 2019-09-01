@@ -8,7 +8,6 @@ from django.utils.functional import SimpleLazyObject, new_method_proxy
 
 from .models import Profile, MiscConfig, NavigationBar
 
-
 class FixedSimpleLazyObject(SimpleLazyObject):
     if not hasattr(SimpleLazyObject, '__iter__'):
         __iter__ = new_method_proxy(iter)
