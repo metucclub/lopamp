@@ -37,86 +37,77 @@ PYGMENT_THEME = 'pygment-github.css'
 
 # Application definition
 
-INSTALLED_APPS = ()
-
-try:
-    import wpadmin
-except ImportError:
-    pass
-else:
-    del wpadmin
-    INSTALLED_APPS += ('wpadmin',)
-
-    WPADMIN = {
-        'admin': {
-            'title': 'DMOJ Admin',
-            'menu': {
-                'top': 'wpadmin.menu.menus.BasicTopMenu',
-                'left': 'wpadmin.menu.custom.CustomModelLeftMenuWithDashboard',
+WPADMIN = {
+    'admin': {
+        'title': 'DMOJ Admin',
+        'menu': {
+            'top': 'wpadmin.menu.menus.BasicTopMenu',
+            'left': 'wpadmin.menu.custom.CustomModelLeftMenuWithDashboard',
+        },
+        'custom_menu': [
+            {
+                'model': 'judge.Problem',
+                'icon': 'fa-question-circle',
+                'children': [
+                    'judge.ProblemGroup',
+                    'judge.ProblemType',
+                ],
             },
-            'custom_menu': [
-                {
-                    'model': 'judge.Problem',
-                    'icon': 'fa-question-circle',
-                    'children': [
-                        'judge.ProblemGroup',
-                        'judge.ProblemType',
-                    ],
-                },
-                {
-                    'model': 'judge.Submission',
-                    'icon': 'fa-check-square-o',
-                    'children': [
-                        'judge.Language',
-                        'judge.Judge',
-                    ],
-                },
-                {
-                    'model': 'judge.Contest',
-                    'icon': 'fa-bar-chart',
-                    'children': [
-                        'judge.ContestParticipation',
-                        'judge.ContestTag',
-                    ],
-                },
-                {
-                    'model': 'auth.User',
-                    'icon': 'fa-user',
-                    'children': [
-                        'auth.Group',
-                        'registration.RegistrationProfile',
-                    ],
-                },
-                {
-                    'model': 'judge.Profile',
-                    'icon': 'fa-user-plus',
-                    'children': [
-                        'judge.Organization',
-                        'judge.OrganizationRequest',
-                    ],
-                },
-                {
-                    'model': 'judge.NavigationBar',
-                    'icon': 'fa-bars',
-                    'children': [
-                        'judge.MiscConfig',
-                        'judge.License',
-                        'sites.Site',
-                        'redirects.Redirect',
-                    ],
-                },
-                ('judge.BlogPost', 'fa-rss-square'),
-                ('judge.Comment', 'fa-comment-o'),
-                ('flatpages.FlatPage', 'fa-file-text-o'),
-                ('judge.Solution', 'fa-pencil'),
-            ],
-            'dashboard': {
-                'breadcrumbs': True,
+            {
+                'model': 'judge.Submission',
+                'icon': 'fa-check-square-o',
+                'children': [
+                    'judge.Language',
+                    'judge.Judge',
+                ],
             },
-        }
+            {
+                'model': 'judge.Contest',
+                'icon': 'fa-bar-chart',
+                'children': [
+                    'judge.ContestParticipation',
+                    'judge.ContestTag',
+                ],
+            },
+            {
+                'model': 'auth.User',
+                'icon': 'fa-user',
+                'children': [
+                    'auth.Group',
+                    'registration.RegistrationProfile',
+                ],
+            },
+            {
+                'model': 'judge.Profile',
+                'icon': 'fa-user-plus',
+                'children': [
+                    'judge.Organization',
+                    'judge.OrganizationRequest',
+                ],
+            },
+            {
+                'model': 'judge.NavigationBar',
+                'icon': 'fa-bars',
+                'children': [
+                    'judge.MiscConfig',
+                    'judge.License',
+                    'sites.Site',
+                    'redirects.Redirect',
+                ],
+            },
+            ('judge.BlogPost', 'fa-rss-square'),
+            ('judge.Comment', 'fa-comment-o'),
+            ('flatpages.FlatPage', 'fa-file-text-o'),
+            ('judge.Solution', 'fa-pencil'),
+        ],
+        'dashboard': {
+            'breadcrumbs': True,
+        },
     }
+}
 
-INSTALLED_APPS += (
+INSTALLED_APPS = (
+    'wpadmin',
     'django.contrib.admin',
     'judge',
     'django.contrib.auth',
