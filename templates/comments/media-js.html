@@ -12,15 +12,7 @@
                             dataType: "script",
                             cache: true,
                             success: function () {
-                                $.ajax({
-                                    type: "GET",
-                                    url: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config=TeX-AMS_HTML',
-                                    dataType: "script",
-                                    cache: true,
-                                    success: function () {
-                                        mathjax_pagedown($);
-                                    }
-                                });
+								mathjax_pagedown($);
                             }
                         });
                     }

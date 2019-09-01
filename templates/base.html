@@ -47,7 +47,7 @@
     {% endif %}
     
 	<!--[if lt IE 9]>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<script src="{{ static('libs/html5shiv.min.js') }}"></script>
     <script>window.bad_browser = true</script>
     <![endif]-->
     {% block meta %}{% endblock %}
@@ -57,10 +57,10 @@
         {% if PYGMENT_THEME %}
             <link rel="stylesheet" href="{{ static(PYGMENT_THEME) }}">
         {% endif %}
-        <link rel="stylesheet" href="{{ static('libs/fontawesome/css/font-awesome.css') }}">
+        <link rel="stylesheet" href="{{ static('libs/fontawesome/css/font-awesome.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ static('libs/featherlight/featherlight.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ static('libs/clipboard/tooltip.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ static('libs/select2/select2.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ static('libs/select2/css/select2.min.css') }}">
     {% endcompress %}
 
     <link rel="canonical" href="{{ DMOJ_SCHEME }}://{{ DMOJ_CANONICAL|default(site.domain) }}{{ request.get_full_path() }}">
@@ -76,12 +76,12 @@
     
     {% compress js %}
         <script>{{ inlinei18n(LANGUAGE_CODE)|safe }}</script>
-        <script src="{{ static('libs/jquery-3.4.1.min.js') }}"></script>
+        <script src="{{ static('libs/jquery-2.2.4.min.js') }}"></script>
         <script src="{{ static('libs/jquery-cookie.js') }}"></script>
         <script src="{{ static('libs/jquery-taphold.js') }}"></script>
         <script src="{{ static('libs/jquery.unveil.js') }}"></script>
         <script src="{{ static('libs/moment-with-locales.min.js') }}"></script>
-        <script src="{{ static('libs/select2/select2.js') }}"></script>
+        <script src="{{ static('libs/select2/js/select2.min.js') }}"></script>
         {% include "extra_js.html" %}
         <script src="{{ static('common.js') }}"></script>
         <script>

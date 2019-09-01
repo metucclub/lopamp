@@ -36,7 +36,7 @@ $(function () {
                                 success: function () {
                                     $.ajax({
                                         type: 'GET',
-                                        url: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML',
+                                        url: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML",
                                         dataType: 'script',
                                         cache: true,
                                         success: function () {
@@ -44,7 +44,7 @@ $(function () {
                                                 $content.find('.tex-image').hide();
                                                 $content.find('.tex-text').show();
                                             });
-                                        }
+                                        },
                                     });
                                 }
                             });
