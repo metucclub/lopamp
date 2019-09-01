@@ -1,7 +1,8 @@
-define(function(require, exports, module) {
-"use strict";
-
-exports.snippetText = require("../requirejs/text!./forth.snippets");
-exports.scope = "forth";
-
-});
+define("ace/snippets/forth",["require","exports","module"],function(e,t,n){"use strict";t.snippetText=undefined,t.scope="forth"});                (function() {
+                    window.require(["ace/snippets/forth"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
+                })();
+            

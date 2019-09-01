@@ -1,7 +1,8 @@
-define(function(require, exports, module) {
-"use strict";
-
-exports.snippetText = require("../requirejs/text!./ada.snippets");
-exports.scope = "ada";
-
-});
+define("ace/snippets/ada",["require","exports","module"],function(e,t,n){"use strict";t.snippetText=undefined,t.scope="ada"});                (function() {
+                    window.require(["ace/snippets/ada"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
+                })();
+            

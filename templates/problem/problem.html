@@ -229,23 +229,9 @@
         {% endwith %}
     {% endcache %}
 
-    {% if not contest_problem or not contest_problem.contest.hide_problem_tags %}
-        <div id="problem-types">
-            {% with types=problem.types_list %}
-                <div class="toggle closed unselectable">
-                    <i class="fa fa-chevron-right fa-fw"></i>{% trans trimmed count=problem.types_list|length %}
-                    Problem type
-                    {% pluralize count %}
-                    Problem types
-                {% endtrans %}
-                </div>
-                <div style="display:none" class="toggled">{{ problem.types_list|join(", ") }}</div>
-            {% endwith %}
-        </div>
-    {% endif %}
     {% if show_languages %}
         <div id="allowed-langs">
-            <div class="toggle open unselectable">
+            <div class="toggle open unselectable">q
                 <i class="fa fa-chevron-right fa-fw"></i>{{ _('Allowed languages') }}
             </div>
             <div class="toggled">
@@ -290,7 +276,7 @@
 {% endblock %}
 
 {% block description %}
-    {% cache 86400 'problem_html' problem.id MATH_ENGINE LANGUAGE_CODE %}
+    {% cache 86400 'problem_html' problem.id problem.description MATH_ENGINE LANGUAGE_CODE %}
         {{ description|markdown("problem", MATH_ENGINE)|reference|str|safe }}
     {% endcache %}
 
@@ -312,28 +298,6 @@
                 {{ _('Report an issue') }}
             {%- endif -%}
         </a>
-    {% endif %}
-{% endblock %}
-
-{% block comments %}
-    {% if contest_problem and contest_problem.contest.use_clarifications %}
-        <div class="clarifications-area">
-            <h2><i class="fa fa-question-circle"></i> {{ _('Clarifications') }}</h2>
-            {% if has_clarifications %}
-                {% for clarification in clarifications %}
-                    <div class="problem-clarification">
-                        <div class="time">{{ relative_time(clarification.date) }}</div>
-                        <span class="body">
-                            {{ clarification.description|markdown('problem', MATH_ENGINE)|reference }}
-                        </span>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p class="no-comments-message">{{ _('No clarifications have been made at this time.') }}</p>
-            {% endif %}
-        </div>
-    {% else %}
-        {% include "comments/list.html" %}
     {% endif %}
 {% endblock %}
 

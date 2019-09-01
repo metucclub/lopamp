@@ -1,7 +1,8 @@
-define(function(require, exports, module) {
-"use strict";
-
-exports.snippetText = require("../requirejs/text!./golang.snippets");
-exports.scope = "golang";
-
-});
+define("ace/snippets/golang",["require","exports","module"],function(e,t,n){"use strict";t.snippetText=undefined,t.scope="golang"});                (function() {
+                    window.require(["ace/snippets/golang"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
+                })();
+            

@@ -1,7 +1,8 @@
-define(function(require, exports, module) {
-"use strict";
-
-exports.snippetText = require("../requirejs/text!./typescript.snippets");
-exports.scope = "typescript";
-
-});
+define("ace/snippets/typescript",["require","exports","module"],function(e,t,n){"use strict";t.snippetText=undefined,t.scope="typescript"});                (function() {
+                    window.require(["ace/snippets/typescript"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
+                })();
+            
