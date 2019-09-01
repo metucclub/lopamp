@@ -58,20 +58,20 @@
                 count_down($(this));
             });
 
-            $('.blog-sidebar').hide();
+            // $('.blog-sidebar').hide();
             $('#blog-tab').find('a').click(function (e) {
                 e.preventDefault();
                 $('#blog-tab').addClass('active');
                 $('#event-tab').removeClass('active');
                 $('.blog-content').show();
-                $('.blog-sidebar').hide();
+                // $('.blog-sidebar').hide();
             });
             $('#event-tab').find('a').click(function (e) {
                 e.preventDefault();
                 $('#event-tab').addClass('active');
                 $('#blog-tab').removeClass('active');
                 $('.blog-content').hide();
-                $('.blog-sidebar').show();
+                // $('.blog-sidebar').show();
             });
         });
     </script>
@@ -104,12 +104,6 @@
                                 {%- endif -%}
                             {% endwith %}
                             {{ relative_time(post.publish_on, abs=_('posted on {time}'), rel=_('posted {time}')) -}}
-                        </span><span class="comment-data">
-                            <a href="{{ url('blog_post', post.id, post.slug) }}#comments" class="comment-count-link">
-                                <i class="fa fa-comments comment-icon"></i><span class="comment-count">
-                                    {{- post_comment_counts[post.id] or 0 -}}
-                                </span>
-                            </a>
                         </span>
                         <div class="summary content-description">
                             {% cache 86400 'post_summary' post.id %}
@@ -178,6 +172,21 @@
                                 </div>
                                 <div class="time">
                                     {{ _('Starting in %(countdown)s.', countdown=contest.time_before_start|as_countdown) }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if past_contests %}
+                <div class="blog-sidebox sidebox">
+                    <h3>{{ _('Past contests') }} <i class="fa fa-trophy"></i></h3>
+                    <div class="sidebox-content">
+                        {% for contest in past_contests %}
+                            <div class="contest">
+                                <div class="contest-list-title">
+                                    <a href="{{ url('contest_view', contest.key) }}">{{ contest.name }}</a>
                                 </div>
                             </div>
                         {% endfor %}
