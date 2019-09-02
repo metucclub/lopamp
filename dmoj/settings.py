@@ -124,7 +124,6 @@ INSTALLED_APPS = (
     'reversion',
     'django_social_share',
     'social_django',
-    'sass_processor',
     'compressor',
     'django_ace',
     'pagedown',
@@ -212,7 +211,6 @@ TEMPLATES = [
             'lstrip_blocks': True,
             'extensions': DEFAULT_EXTENSIONS + [
                 'compressor.contrib.jinja2ext.CompressorExtension',
-                'sass_processor.jinja2.ext.SassSrc',
                 'judge.jinja2.DMOJExtension',
                 'judge.jinja2.spaceless.SpacelessExtension',
             ],

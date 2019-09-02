@@ -35,13 +35,13 @@ WORKDIR /app
 
 RUN mkdir -p static/pdfcache/
 
-COPY package.json .
-RUN npm install .
-
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt && \
     pip install gunicorn
+
+COPY package.json .
+RUN npm install .
 
 COPY . .
 

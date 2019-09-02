@@ -38,5 +38,4 @@ unicodecsv
 django-rosetta
 django-recaptcha2
 django-anymail
-django-sass-processor
 libsass
