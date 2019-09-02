@@ -31,7 +31,7 @@ jsonfield
 pymoss
 packaging
 celery
-PyMySQL
+mysqlclient
 django_select2<7
 websocket-client
 unicodecsv
