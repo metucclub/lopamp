@@ -3,8 +3,8 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.sitemaps.views import sitemap
-from django.http import HttpResponsePermanentRedirect
 from django.urls import reverse, reverse_lazy
+from django.http import Http404, HttpResponsePermanentRedirect
 from django.utils.translation import ugettext_lazy as _
 
 from judge.feed import CommentFeed, AtomCommentFeed, BlogFeed, AtomBlogFeed, ProblemFeed, AtomProblemFeed
@@ -84,6 +84,8 @@ register_patterns = [
 
 
 def exception(request):
+    if not request.user.is_superuser:
+        raise Http404()
     raise RuntimeError('@Xyene asked me to cause this')
 
 
