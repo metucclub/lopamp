@@ -38,4 +38,3 @@ unicodecsv
 django-rosetta
 django-recaptcha2
 django-anymail
-libsass

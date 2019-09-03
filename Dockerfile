@@ -38,7 +38,8 @@ RUN mkdir -p static/pdfcache/
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt && \
-    pip install gunicorn
+    pip install gunicorn && \
+    pip install gunicorn[gevent]
 
 COPY package.json .
 RUN npm install .
