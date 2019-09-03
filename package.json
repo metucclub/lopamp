@@ -6,7 +6,7 @@
 		"sass": "node-sass --recursive --output static/ --source-map true --source-map-contents resources/",
 		"autoprefixer": "postcss --use autoprefixer --autoprefixer.browsers  '> 0.25%' --output static/style.css static/style.css",
 		"build:css": "run-s sass autoprefixer",
-		"dev": "watch 'build:css' resources/"
+		"dev": "watch 'npm run build:css' resources/"
 	},
 	"dependencies": {
 		"qu": "^0.1.0",

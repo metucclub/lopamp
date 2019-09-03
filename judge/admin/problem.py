@@ -131,7 +131,7 @@ class ProblemAdmin(VersionAdmin):
         (_('Justice'), {'fields': ('banned_users',)}),
         (_('History'), {'fields': ('change_message',)})
     )
-    list_display = ['code', 'name', 'show_authors', 'points', 'is_public', 'show_public']
+    list_display = ['code', 'name', 'group', 'show_authors', 'points', 'is_public', 'show_public']
     ordering = ['code']
     search_fields = ('code', 'name', 'authors__user__username', 'curators__user__username')
     inlines = [LanguageLimitInline, ProblemClarificationInline, ProblemSolutionInline, ProblemTranslationInline]
