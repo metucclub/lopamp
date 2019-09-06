@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     'impersonate',
     'django_jinja',
     'django_select2',
+    'snowpenguin.django.recaptcha2',
 )
 
 MIDDLEWARE = (
