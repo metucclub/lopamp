@@ -43,15 +43,15 @@ def paged_list_view(view, name):
     ])
 
 urlpatterns = [
-        url(r'^$', contests.ContestDetail.as_view(), name='contest_view'),
-        url(r'^scoreboard/$', contests.contest_ranking, name='contest_ranking'),
-        url(r'^scoreboard/ajax$', contests.contest_ranking_ajax, name='contest_ranking_ajax'),
-        url(r'^join$', contests.ContestJoin.as_view(), name='contest_join'),
+    url(r'^$', contests.ContestDetail.as_view(), name='contest_view'),
+    url(r'^scoreboard/$', contests.contest_ranking, name='contest_ranking'),
+    url(r'^scoreboard/ajax$', contests.contest_ranking_ajax, name='contest_ranking_ajax'),
+    url(r'^join$', contests.ContestJoin.as_view(), name='contest_join'),
 
-        url(r'^submissions/', paged_list_view(submission.AllSubmissions, 'all_submissions')),
-        url(r'^submissions/user/(?P<team_slug>[-\w]+)/', paged_list_view(submission.AllUserSubmissions, 'all_user_submissions')),
+    url(r'^submissions/', paged_list_view(submission.AllSubmissions, 'all_submissions')),
+    url(r'^submissions/user/(?P<team_slug>[-\w]+)/', paged_list_view(submission.AllUserSubmissions, 'all_user_submissions')),
 
-        url(r'^/$', lambda _, contest: HttpResponsePermanentRedirect(reverse('contest_view', args=[contest]))),
+    url(r'^/$', lambda _, contest: HttpResponsePermanentRedirect(reverse('contest_view', args=[contest]))),
 
     url(r'^500/$', exception),
     url(r'^admin/', include(admin.site.urls)),
