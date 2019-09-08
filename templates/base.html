@@ -154,9 +154,7 @@
                 <a href="{{ url('user_page') }}">
                     <img class="avatar-img" src="{{ gravatar(request.user, 32) }}">{# -#}
                     <div class="hello">
-                        {%- trans username=request.user.username -%}
-                            Hello, <b>{{ username }}</b>.
-                        {%- endtrans -%}
+                        Hello, <b>{{ request.user.profile.team_name }}</b>.
                     </div>
                 </a>
 

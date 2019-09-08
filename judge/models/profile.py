@@ -73,6 +73,8 @@ class Organization(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, verbose_name=_('user associated'), on_delete=models.CASCADE)
+    team_name = models.CharField(max_length=100, blank=True, null=True)
+    team_slug = models.CharField(max_length=100, blank=True, null=True, unique=True)
     about = models.TextField(verbose_name=_('self-description'), null=True, blank=True)
     timezone = models.CharField(max_length=50, verbose_name=_('location'), choices=TIMEZONE,
                                 default=getattr(settings, 'DEFAULT_USER_TIME_ZONE', 'America/Toronto'))
