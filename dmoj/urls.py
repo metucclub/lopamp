@@ -23,28 +23,6 @@ from judge.views.select2 import UserSelect2View, OrganizationSelect2View, Proble
 admin.autodiscover()
 
 register_patterns = [
-    url(r'^activate/complete/$',
-        TitledTemplateView.as_view(template_name='registration/activation_complete.html',
-                                   title=_('Activation Successful!')),
-        name='registration_activation_complete'),
-    # Activation keys get matched by \w+ instead of the more specific
-    # [a-fA-F0-9]{40} because a bad activation key should still get to the view;
-    # that way it can return a sensible "invalid key" message instead of a
-    # confusing 404.
-    url(r'^activate/(?P<activation_key>\w+)/$',
-        ActivationView.as_view(title=_('Activation key invalid')),
-        name='registration_activate'),
-    url(r'^register/$',
-        RegistrationView.as_view(title=_('Register')),
-        name='registration_register'),
-    url(r'^register/complete/$',
-        TitledTemplateView.as_view(template_name='registration/registration_complete.html',
-                                   title=_('Registration Completed')),
-        name='registration_complete'),
-    url(r'^register/closed/$',
-        TitledTemplateView.as_view(template_name='registration/registration_closed.html',
-                                   title=_('Registration not allowed')),
-        name='registration_disallowed'),
     url(r'^login/$', auth_views.LoginView.as_view(
         template_name='registration/login.html',
         extra_context={
@@ -54,32 +32,6 @@ register_patterns = [
         authentication_form=CustomAuthenticationForm,
     ), name='auth_login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='auth_logout'),
-    url(r'^password/change/$', auth_views.PasswordChangeView.as_view(
-        template_name='registration/password_change_form.html'
-    ), name='password_change'),
-    url(r'^password/change/done/$', auth_views.PasswordChangeDoneView.as_view(
-        template_name='registration/password_change_done.html',
-    ), name='password_change_done'),
-    url(r'^password/reset/$',auth_views.PasswordResetView.as_view(
-        template_name='registration/password_reset.html',
-        html_email_template_name='registration/password_reset_email.html',
-        email_template_name='registration/password_reset_email.txt',
-    ), name='password_reset'),
-    url(r'^password/reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
-        auth_views.PasswordResetConfirmView.as_view(
-            template_name='registration/password_reset_confirm.html',
-        ), name='password_reset_confirm'),
-    url(r'^password/reset/complete/$', auth_views.PasswordResetCompleteView.as_view(
-        template_name='registration/password_reset_complete.html',
-    ), name='password_reset_complete'),
-    url(r'^password/reset/done/$', auth_views.PasswordResetDoneView.as_view(
-        template_name='registration/password_reset_done.html',
-    ), name='password_reset_done'),
-    url(r'^social/error/$', register.social_auth_error, name='social_auth_error'),
-
-    url(r'^2fa/$', totp.TOTPLoginView.as_view(), name='login_2fa'),
-    url(r'^2fa/enable/$', totp.TOTPEnableView.as_view(), name='enable_2fa'),
-    url(r'^2fa/disable/$', totp.TOTPDisableView.as_view(), name='disable_2fa'),
 ]
 
 
@@ -215,43 +167,9 @@ urlpatterns = [
         url(r'^/$', lambda _, contest: HttpResponsePermanentRedirect(reverse('contest_view', args=[contest]))),
     ])),
 
-    url(r'^organizations/$', organization.OrganizationList.as_view(), name='organization_list'),
-    url(r'^organization/(?P<pk>\d+)-(?P<slug>[\w-]*)', include([
-        url(r'^$', organization.OrganizationHome.as_view(), name='organization_home'),
-        url(r'^/users$', organization.OrganizationUsers.as_view(), name='organization_users'),
-        url(r'^/join$', organization.JoinOrganization.as_view(), name='join_organization'),
-        url(r'^/leave$', organization.LeaveOrganization.as_view(), name='leave_organization'),
-        url(r'^/edit$', organization.EditOrganization.as_view(), name='edit_organization'),
-        url(r'^/kick$', organization.KickUserWidgetView.as_view(), name='organization_user_kick'),
-
-        url(r'^/request$', organization.RequestJoinOrganization.as_view(), name='request_organization'),
-        url(r'^/request/(?P<rpk>\d+)$', organization.OrganizationRequestDetail.as_view(),
-            name='request_organization_detail'),
-        url(r'^/requests/', include([
-            url(r'^pending$', organization.OrganizationRequestView.as_view(), name='organization_requests_pending'),
-            url(r'^log$', organization.OrganizationRequestLog.as_view(), name='organization_requests_log'),
-            url(r'^approved$', organization.OrganizationRequestLog.as_view(states=('A',), tab='approved'),
-                name='organization_requests_approved'),
-            url(r'^rejected$', organization.OrganizationRequestLog.as_view(states=('R',), tab='rejected'),
-                name='organization_requests_rejected'),
-        ])),
-
-        url(r'^/$', lambda _, pk, slug: HttpResponsePermanentRedirect(reverse('organization_home', args=[pk, slug]))),
-    ])),
-
     url(r'^runtimes/$', language.LanguageList.as_view(), name='runtime_list'),
     url(r'^runtimes/matrix/$', status.version_matrix, name='version_matrix'),
     url(r'^status/$', status.status_all, name='status_all'),
-
-    url(r'^api/', include([
-        url(r'^contest/list$', api.api_v1_contest_list),
-        url(r'^contest/info/(\w+)$', api.api_v1_contest_detail),
-        url(r'^problem/list$', api.api_v1_problem_list),
-        url(r'^problem/info/(\w+)$', api.api_v1_problem_info),
-        url(r'^user/list$', api.api_v1_user_list),
-        url(r'^user/info/(\w+)$', api.api_v1_user_info),
-        url(r'^user/submissions/(\w+)$', api.api_v1_user_submissions),
-    ])),
 
     url(r'^blog/', paged_list_view(blog.PostList, 'blog_post_list')),
     url(r'^post/(?P<id>\d+)-(?P<slug>.*)$', blog.PostView.as_view(), name='blog_post'),
@@ -290,15 +208,6 @@ urlpatterns = [
         ])),
     ])),
 
-    url(r'^feed/', include([
-        url(r'^problems/rss/$', ProblemFeed(), name='problem_rss'),
-        url(r'^problems/atom/$', AtomProblemFeed(), name='problem_atom'),
-        url(r'^comment/rss/$', CommentFeed(), name='comment_rss'),
-        url(r'^comment/atom/$', AtomCommentFeed(), name='comment_atom'),
-        url(r'^blog/rss/$', BlogFeed(), name='blog_rss'),
-        url(r'^blog/atom/$', AtomBlogFeed(), name='blog_atom'),
-    ])),
-
     url(r'^stats/', include([
         url('^language/', include([
             url('^$', stats.language, name='language_stats'),
@@ -320,19 +229,6 @@ urlpatterns = [
         url(r'^/close$', ticket.TicketStatusChangeView.as_view(open=False), name='ticket_close'),
         url(r'^/notes$', ticket.TicketNotesEditView.as_view(), name='ticket_notes'),
     ])),
-
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': {
-        'problem': ProblemSitemap,
-        'user': UserSitemap,
-        'home': HomePageSitemap,
-        'contest': ContestSitemap,
-        'organization': OrganizationSitemap,
-        'blog': BlogPostSitemap,
-        'solutions': SolutionSitemap,
-        'pages': UrlSitemap([
-            {'location': '/about/', 'priority': 0.9},
-        ]),
-    }}),
 
     url(r'^judge-select2/', include([
         url(r'^profile/$', UserSelect2View.as_view(), name='profile_select2'),
