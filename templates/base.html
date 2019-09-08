@@ -151,35 +151,30 @@
         </ul>
         <div id="user-links">
             {% if request.user.is_authenticated %}
-                    <a href="{{ url('user_page') }}">
-                        <img class="avatar-img" src="{{ gravatar(request.user, 32) }}">{# -#}
-                        <div class="hello">
-                            {%- trans username=request.user.username -%}
-                                Hello, <b>{{ username }}</b>.
-                            {%- endtrans -%}
-                        </div>
-                    </a>
+                <a href="{{ url('user_page') }}">
+                    <img class="avatar-img" src="{{ gravatar(request.user, 32) }}">{# -#}
+                    <div class="hello">
+                        {%- trans username=request.user.username -%}
+                            Hello, <b>{{ username }}</b>.
+                        {%- endtrans -%}
+                    </div>
+                </a>
+
                 <ul class="user-drop">
                     {% if request.user.is_staff or request.user.is_superuser %}
                         <li><a href="{{ url('admin:index') }}">{{ _('Admin') }}</a></li>
                     {% endif %}
-                        <li><a href="{{ url('user_edit_profile') }}">{{ _('Edit profile') }}</a></li>
-                    {% if request.user.is_impersonate %}
-                        <li><a href="{{ url('impersonate-stop') }}">Stop impersonating</a></li>
-                    {% else %}
-                        <li>
-                            <form action="{{ url('auth_logout') }}" method="POST" id="logout">
-                                {% csrf_token %}
-                                <a href="#" onclick="document.getElementById('logout').submit();">{{ _('Log out') }}</a>
-                            </form>
-                        </li>
-                    {% endif %}
+
+                    <li>
+                        <form action="{{ url('auth_logout') }}" method="POST" id="logout">
+                            {% csrf_token %}
+                            <a href="#" onclick="document.getElementById('logout').submit();">{{ _('Log out') }}</a>
+                        </form>
+                    </li>
                 </ul>
             {% else %}
                 <span class="anon">
                     <a href="{{ url('auth_login') }}?next={{ LOGIN_RETURN_PATH|urlencode }}"><b>{{ _('Login') }}</b></a>
-                    &nbsp;|&nbsp;
-                    <a href="{{ url('registration_register') }}">{{ _('Register') }}</a>
                 </span>
             {% endif %}
         </div>
@@ -215,21 +210,7 @@
     <footer>
         <span id="footer-content">
             <br>
-            <a style="color: #808080" href="https://dmoj.ca">proudly powered by <b>DMOJ</b></a> |
-            {% if i18n_config.footer %}
-                {{ i18n_config.footer|safe }} |
-            {% endif %}
-            <form action="{{ url('set_language') }}" method="post" style="display: inline">
-                {% csrf_token %}
-            <input name="next" type="hidden" value="{{ request.get_full_path() }}">
-            <select name="language" onchange="form.submit()" style="height: 1.5em">
-                {% for language in language_info_list(LANGUAGES) %}
-                    <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
-                        {{ language.name_local }} ({{ language.code }})
-                    </option>
-                {% endfor %}
-            </select>
-          </form>
+            <a style="color: #808080" href="https://dmoj.ca">proudly powered by <b>DMOJ</b></a>
         </span>
     </footer>
 </div>

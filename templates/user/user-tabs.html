@@ -6,9 +6,7 @@
     {% if request.user.is_superuser and user.user != request.user and not user.user.is_superuser %}
         {{ make_tab('impersonate', 'fa-eye', url('impersonate-start', user.user.id), _('Impersonate')) }}
     {% endif %}
-    {% if user.user == request.user %}
-        {{ make_tab('edit', 'fa-edit', url('user_edit_profile'), _('Edit profile')) }}
-    {% else %}
+    {% if user.user != request.user %}
         {% if perms.auth.change_user %}
             {{ make_tab('edit', 'fa-edit', url('admin:auth_user_change', user.user.id), _('Admin User')) }}
         {% endif %}
