@@ -21,21 +21,12 @@ class ProblemForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ProblemForm, self).__init__(*args, **kwargs)
-        self.fields['authors'].widget.can_add_related = False
-        self.fields['curators'].widget.can_add_related = False
-        self.fields['testers'].widget.can_add_related = False
-        self.fields['banned_users'].widget.can_add_related = False
         self.fields['change_message'].widget.attrs.update({
             'placeholder': gettext('Describe the changes you made (optional)')
         })
 
     class Meta:
         widgets = {
-            'authors': HeavySelect2MultipleWidget(data_view='profile_select2', attrs={'style': 'width: 100%'}),
-            'curators': HeavySelect2MultipleWidget(data_view='profile_select2', attrs={'style': 'width: 100%'}),
-            'testers': HeavySelect2MultipleWidget(data_view='profile_select2', attrs={'style': 'width: 100%'}),
-            'banned_users': HeavySelect2MultipleWidget(data_view='profile_select2', attrs={'style': 'width: 100%'}),
-            'organizations': HeavySelect2MultipleWidget(data_view='organization_select2', attrs={'style': 'width: 100%'}),
             'types': Select2MultipleWidget,
             'group': Select2Widget,
         }
@@ -83,11 +74,9 @@ class ProblemClarificationInline(admin.StackedInline):
 class ProblemSolutionForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProblemSolutionForm, self).__init__(*args, **kwargs)
-        self.fields['authors'].widget.can_add_related = False
 
     class Meta:
         widgets = {
-            'authors': HeavySelect2MultipleWidget(data_view='profile_select2', attrs={'style': 'width: 100%'}),
         }
 
         if HeavyPreviewAdminPageDownWidget is not None:
@@ -118,22 +107,16 @@ class ProblemAdmin(VersionAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'code', 'name', 'is_public', 'is_manually_managed', 'date', 'authors', 'curators', 'testers',
-                'is_organization_private', 'organizations',
-                'description',
-                'license')
+                'code', 'name',
+                'description')
         }),
-        (_('Social Media'), {'classes': ('collapse',), 'fields': ('og_image', 'summary')}),
-        (_('Taxonomy'), {'fields': ('types', 'group')}),
         (_('Points'), {'fields': (('points', 'partial'), 'short_circuit')}),
         (_('Limits'), {'fields': ('time_limit', 'memory_limit')}),
         (_('Language'), {'fields': ('allowed_languages',)}),
-        (_('Justice'), {'fields': ('banned_users',)}),
-        (_('History'), {'fields': ('change_message',)})
     )
-    list_display = ['code', 'name', 'group', 'show_authors', 'points', 'is_public', 'show_public']
+    list_display = ['code', 'name', 'group', 'points', 'is_public', 'show_public']
     ordering = ['code']
-    search_fields = ('code', 'name', 'authors__user__username', 'curators__user__username')
+    search_fields = ('code', 'name')
     inlines = [LanguageLimitInline, ProblemClarificationInline, ProblemSolutionInline, ProblemTranslationInline]
     list_max_show_all = 1000
     actions_on_top = True
@@ -161,11 +144,6 @@ class ProblemAdmin(VersionAdmin):
         if not request.user.has_perm('judge.change_manually_managed'):
             fields += ('is_manually_managed',)
         return fields
-
-    def show_authors(self, obj):
-        return ', '.join(map(attrgetter('user.username'), obj.authors.all()))
-
-    show_authors.short_description = _('Authors')
 
     def show_public(self, obj):
         return format_html('<a href="{1}">{0}</a>', gettext('View on site'), obj.get_absolute_url())
@@ -246,7 +224,6 @@ class ProblemAdmin(VersionAdmin):
 
     def get_form(self, *args, **kwargs):
         form = super(ProblemAdmin, self).get_form(*args, **kwargs)
-        form.base_fields['authors'].queryset = Profile.objects.all()
         return form
 
     def save_model(self, request, obj, form, change):

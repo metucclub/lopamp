@@ -516,9 +516,9 @@ class UserContestSubmissions(ForceContestMixin, UserProblemSubmissions):
                                  '<a href="{3}">{2}</a> in <a href="{5}">{4}</a>'),
                                self.username, reverse('user_page', args=[self.username]),
                                self.problem_name, reverse('problem_detail', args=[self.problem.code]),
-                               self.contest.name, reverse('contest_view', args=[self.contest.key]))
+                               self.contest.name, reverse('contest_view'))
         return format_html(_('<a href="{1}">{0}</a>\'s submissions for '
                              'problem {2} in <a href="{4}">{3}</a>'),
                            self.username, reverse('user_page', args=[self.username]),
                            self.get_problem_number(self.problem),
-                           self.contest.name, reverse('contest_view', args=[self.contest.key]))
+                           self.contest.name, reverse('contest_view'))

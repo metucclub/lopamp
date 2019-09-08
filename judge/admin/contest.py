@@ -86,7 +86,6 @@ class ContestForm(ModelForm):
                     Profile.objects.filter(contest_history__contest=self.instance).distinct()
             else:
                 self.fields['rate_exclude'].queryset = Profile.objects.none()
-        self.fields['banned_users'].widget.can_add_related = False
 
     def clean(self):
         cleaned_data = super(ContestForm, self).clean()
@@ -94,10 +93,6 @@ class ContestForm(ModelForm):
 
     class Meta:
         widgets = {
-            'organizers': HeavySelect2MultipleWidget(data_view='profile_select2'),
-            'organizations': HeavySelect2MultipleWidget(data_view='organization_select2'),
-            'tags': Select2MultipleWidget,
-            'banned_users': HeavySelect2MultipleWidget(data_view='profile_select2', attrs={'style': 'width: 100%'}),
         }
 
         if HeavyPreviewAdminPageDownWidget is not None:
@@ -109,11 +104,8 @@ class ContestAdmin(VersionAdmin):
         (None, {'fields': ('key', 'name', 'organizers', 'is_public', 'use_clarifications',
                            'hide_problem_tags', 'hide_scoreboard', 'run_pretests_only')}),
         (_('Scheduling'), {'fields': ('start_time', 'end_time', 'time_limit')}),
-        (_('Details'), {'fields': ('description', 'og_image', 'logo_override_image', 'tags', 'summary')}),
+        (_('Details'), {'fields': ('description', 'og_image', 'logo_override_image')}),
         (_('Format'), {'fields': ('format_name', 'format_config')}),
-        (_('Rating'), {'fields': ('is_rated', 'rate_all', 'rating_floor', 'rating_ceiling', 'rate_exclude')}),
-        (_('Organization'), {'fields': ('is_private', 'organizations', 'access_code')}),
-        (_('Justice'), {'fields': ('banned_users',)}),
     )
     list_display = ('key', 'name', 'is_public', 'is_rated', 'start_time', 'end_time', 'time_limit', 'user_count')
     actions = ['make_public', 'make_private']
@@ -235,10 +227,10 @@ class ContestParticipationForm(ModelForm):
 
 class ContestParticipationAdmin(admin.ModelAdmin):
     fields = ('contest', 'user', 'real_start', 'virtual')
-    list_display = ('contest', 'username', 'show_virtual', 'real_start', 'score', 'cumtime')
+    list_display = ('contest', 'team_name', 'username', 'show_virtual', 'real_start', 'score', 'cumtime')
     actions = ['recalculate_results']
     actions_on_bottom = actions_on_top = True
-    search_fields = ('contest__key', 'contest__name', 'user__user__username')
+    search_fields = ('contest__key', 'contest__name', 'user__team_name')
     form = ContestParticipationForm
     date_hierarchy = 'real_start'
 
@@ -262,6 +254,11 @@ class ContestParticipationAdmin(admin.ModelAdmin):
         return obj.user.username
     username.short_description = _('username')
     username.admin_order_field = 'user__user__username'
+
+    def team_name(self, obj):
+        return obj.user.team_name
+    team_name.short_description = _('team_name')
+    team_name.admin_order_field = 'user__team_name'
 
     def show_virtual(self, obj):
         return obj.virtual or '-'

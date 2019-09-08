@@ -165,7 +165,8 @@ class ContestMixin(object):
         return context
 
     def get_object(self, queryset=None):
-        contest = super(ContestMixin, self).get_object(queryset)
+        # !CONTEST contest = super(ContestMixin, self).get_object(queryset)
+        contest = Contest.objects.all()[0]
         user = self.request.user
         profile = self.request.profile
 
@@ -337,7 +338,7 @@ class ContestLeave(LoginRequiredMixin, ContestMixin, BaseDetailView):
                                    _('You are not in contest "%s".') % contest.key, 404)
 
         profile.remove_contest()
-        return HttpResponseRedirect(reverse('contest_view', args=(contest.key,)))
+        return HttpResponseRedirect(reverse('contest_view'))
 
 
 ContestDay = namedtuple('ContestDay', 'date weekday is_pad is_today starts ends oneday')

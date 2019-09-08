@@ -138,60 +138,6 @@
                     </div>
                 </div>
             {% endif %}
-            {% if current_contests %}
-                <div class="blog-sidebox sidebox">
-                    <h3>{{ _('Ongoing contests') }} <i class="fa fa-trophy"></i></h3>
-                    <div class="sidebox-content">
-                        {% for contest in current_contests %}
-                            <div class="contest">
-                                <div class="contest-list-title">
-                                    <a href="{{ url('contest_view', contest.key) }}">{{ contest.name }}</a>
-                                </div>
-                                <div class="time">
-                                    {%- trans countdown=contest.time_before_end|as_countdown -%}
-                                        Ends in {{ countdown }}
-                                    {%- endtrans %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
-
-            {% if future_contests %}
-                <div class="blog-sidebox sidebox">
-                    <h3>{{ _('Upcoming contests') }} <i class="fa fa-trophy"></i></h3>
-                    <div class="sidebox-content">
-                        {% for contest in future_contests %}
-                            <div class="contest">
-                                <div class="contest-list-title">
-                                    <a href="{{ url('contest_view', contest.key) }}">{{ contest.name }}</a>
-                                </div>
-                                <div class="time">
-                                    {%- trans countdown=contest.time_before_start|as_countdown -%}
-                                        Starting in {{ countdown }}
-                                    {%- endtrans %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
-
-            {% if past_contests %}
-                <div class="blog-sidebox sidebox">
-                    <h3>{{ _('Past contests') }} <i class="fa fa-trophy"></i></h3>
-                    <div class="sidebox-content">
-                        {% for contest in past_contests %}
-                            <div class="contest">
-                                <div class="contest-list-title">
-                                    <a href="{{ url('contest_view', contest.key) }}">{{ contest.name }}</a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
 
              {% if perms.judge.test_site and own_open_tickets %}
                 <div class="blog-sidebox sidebox">

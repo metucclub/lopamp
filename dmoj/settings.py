@@ -48,10 +48,6 @@ WPADMIN = {
             {
                 'model': 'judge.Problem',
                 'icon': 'fa-question-circle',
-                'children': [
-                    'judge.ProblemGroup',
-                    'judge.ProblemType',
-                ],
             },
             {
                 'model': 'judge.Submission',
@@ -66,7 +62,6 @@ WPADMIN = {
                 'icon': 'fa-bar-chart',
                 'children': [
                     'judge.ContestParticipation',
-                    'judge.ContestTag',
                 ],
             },
             {

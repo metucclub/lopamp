@@ -99,7 +99,7 @@ class Comment(MPTTModel):
             if self.page.startswith('p:'):
                 link = reverse('problem_detail', args=(self.page[2:],))
             elif self.page.startswith('c:'):
-                link = reverse('contest_view', args=(self.page[2:],))
+                link = reverse('contest_view')
             elif self.page.startswith('b:'):
                 key = 'blog_slug:%s' % self.page[2:]
                 slug = cache.get(key)

@@ -27,7 +27,7 @@ register_patterns = [
         template_name='registration/login.html',
         extra_context={
             'title': _('Login'),
-            'next': reverse_lazy('home'),
+            'next': reverse_lazy('contest_view'),
         },
         authentication_form=CustomAuthenticationForm,
     ), name='auth_login'),
@@ -49,23 +49,23 @@ def paged_list_view(view, name):
 
 
 urlpatterns = [
-    url(r'^$', blog.PostList.as_view(template_name='home.html', title=_('Home')), kwargs={'page': 1}, name='home'),
+    url(r'^$', contests.ContestDetail.as_view(), name='contest_view'),
+    url(r'^scoreboard/$', contests.ContestRanking.as_view(), name='contest_ranking'),
+    url(r'^scoreboard/ajax$', contests.contest_ranking_ajax, name='contest_ranking_ajax'),
+
     url(r'^500/$', exception),
     url(r'^admin/', admin.site.urls),
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^accounts/', include(register_patterns)),
     url(r'^', include('social_django.urls')),
 
-    url(r'^problems/$', problem.ProblemList.as_view(), name='problem_list'),
-    url(r'^problems/random/$', problem.RandomProblem.as_view(), name='problem_random'),
-
     url(r'^problem/(?P<problem>[^/]+)', include([
         url(r'^$', problem.ProblemDetail.as_view(), name='problem_detail'),
-        url(r'^/editorial$', problem.ProblemSolution.as_view(), name='problem_editorial'),
+
         url(r'^/raw$', problem.ProblemRaw.as_view(), name='problem_raw'),
         url(r'^/pdf$', problem.ProblemPdfView.as_view(), name='problem_pdf'),
         url(r'^/pdf/(?P<language>[a-z-]+)$', problem.ProblemPdfView.as_view(), name='problem_pdf'),
-        url(r'^/clone', problem.clone_problem, name='problem_clone'),
+
         url(r'^/submit$', problem.problem_submit, name='problem_submit'),
         url(r'^/resubmit/(?P<submission>\d+)$', problem.problem_submit, name='problem_submit'),
 
@@ -74,11 +74,6 @@ urlpatterns = [
         url(r'^/submissions/(?P<user>\w+)/', paged_list_view(submission.UserProblemSubmissions, 'user_submissions')),
 
         url(r'^/$', lambda _, problem: HttpResponsePermanentRedirect(reverse('problem_detail', args=[problem]))),
-
-        url(r'^/test_data$', ProblemDataView.as_view(), name='problem_data'),
-        url(r'^/test_data/init$', problem_init_view, name='problem_data_init'),
-        url(r'^/test_data/diff$', ProblemSubmissionDiff.as_view(), name='problem_submission_diff'),
-        url(r'^/data/(?P<path>.+)$', problem_data_file, name='problem_data_file'),
 
         url(r'^/tickets$', ticket.ProblemTicketListView.as_view(), name='problem_ticket_list'),
         url(r'^/tickets/new$', ticket.NewProblemTicketView.as_view(), name='new_problem_ticket'),
@@ -109,17 +104,7 @@ urlpatterns = [
         url(r'^/html$', submission.single_submission),
     ])),
 
-    url(r'^users/', include([
-        url(r'^$', user.users, name='user_list'),
-        url(r'^(?P<page>\d+)$', lambda request, page:
-        HttpResponsePermanentRedirect('%s?page=%s' % (reverse('user_list'), page))),
-        url(r'^find$', user.user_ranking_redirect, name='user_ranking_redirect'),
-    ])),
-
-    url(r'^user$', user.UserAboutPage.as_view(), name='user_page'),
-
     url(r'^user/(?P<user>\w+)', include([
-        url(r'^$', user.UserAboutPage.as_view(), name='user_page'),
         url(r'^/solved', include([
             url(r'^$', user.UserProblemsPage.as_view(), name='user_problems'),
             url(r'/ajax$', user.UserPerformancePointsAjax.as_view(), name='user_pp_ajax'),
@@ -128,43 +113,6 @@ urlpatterns = [
         url(r'^/submissions/', lambda _, user: HttpResponsePermanentRedirect(reverse('all_user_submissions', args=[user]))),
 
         url(r'^/$', lambda _, user: HttpResponsePermanentRedirect(reverse('user_page', args=[user]))),
-    ])),
-
-    url(r'^comments/upvote/$', comment.upvote_comment, name='comment_upvote'),
-    url(r'^comments/downvote/$', comment.downvote_comment, name='comment_downvote'),
-    url(r'^comments/hide/$', comment.comment_hide, name='comment_hide'),
-    url(r'^comments/(?P<id>\d+)/', include([
-        url(r'^edit$', comment.CommentEdit.as_view(), name='comment_edit'),
-        url(r'^history/ajax$', comment.CommentRevisionAjax.as_view(), name='comment_revision_ajax'),
-        url(r'^edit/ajax$', comment.CommentEditAjax.as_view(), name='comment_edit_ajax'),
-        url(r'^votes/ajax$', comment.CommentVotesAjax.as_view(), name='comment_votes_ajax'),
-        url(r'^render$', comment.CommentContent.as_view(), name='comment_content'),
-    ])),
-
-    url(r'^contests/', paged_list_view(contests.ContestList, 'contest_list')),
-    url(r'^contests/(?P<year>\d+)/(?P<month>\d+)/$', contests.ContestCalendar.as_view(), name='contest_calendar'),
-    url(r'^contests/tag/(?P<name>[a-z-]+)', include([
-        url(r'^$', contests.ContestTagDetail.as_view(), name='contest_tag'),
-        url(r'^/ajax$', contests.ContestTagDetailAjax.as_view(), name='contest_tag_ajax'),
-    ])),
-
-    url(r'^contest/(?P<contest>\w+)', include([
-        url(r'^$', contests.ContestDetail.as_view(), name='contest_view'),
-        url(r'^/ranking/$', contests.ContestRanking.as_view(), name='contest_ranking'),
-        url(r'^/ranking/ajax$', contests.contest_ranking_ajax, name='contest_ranking_ajax'),
-        url(r'^/join$', contests.ContestJoin.as_view(), name='contest_join'),
-        url(r'^/leave$', contests.ContestLeave.as_view(), name='contest_leave'),
-
-        url(r'^/rank/(?P<problem>\w+)/',
-            paged_list_view(ranked_submission.ContestRankedSubmission, 'contest_ranked_submissions')),
-
-        url(r'^/submissions/(?P<user>\w+)/(?P<problem>\w+)/',
-            paged_list_view(submission.UserContestSubmissions, 'contest_user_submissions')),
-
-        url(r'^/participations$', contests.ContestParticipationList.as_view(), name='contest_participation_own'),
-        url(r'^/participations/(?P<user>\w+)$', contests.ContestParticipationList.as_view(), name='contest_participation'),
-
-        url(r'^/$', lambda _, contest: HttpResponsePermanentRedirect(reverse('contest_view', args=[contest]))),
     ])),
 
     url(r'^runtimes/$', language.LanguageList.as_view(), name='runtime_list'),
