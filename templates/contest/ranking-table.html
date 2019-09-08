@@ -30,10 +30,10 @@
 
 {% block before_point_head %}
     {% for problem in problems %}
-        <th class="points header"><a href="{{ url('contest_ranked_submissions', contest.key, problem.problem.code) }}">
-            {{- loop.index }}
-            <div class="point-denominator">{{ problem.points }}</div>
-        </a></th>
+        <th class="points header">
+            {{ chr(loop.index + 64) }}
+            {# !TODO <div class="point-denominator">{{ problem.points }}</div> #}
+        </th>
     {% endfor %}
 {% endblock %}
 

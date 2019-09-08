@@ -12,6 +12,7 @@ from . import (camo, datetime, filesize, gravatar, language, markdown, rating, r
                spaceless, submission, timedelta)
 from . import registry
 
+registry.function('chr', chr)
 registry.function('str', str)
 registry.filter('str', str)
 registry.filter('json', json.dumps)
