@@ -79,7 +79,14 @@
 </div>
 <hr style="clear: both;">
 <div class="content-description printing">
-    {{ description|markdown('problem', 'tex' if math_engine == 'jax' else math_engine)|reference|absolutify(url)|str|safe }}
+    {{ problem.description|markdown("problem", 'jax')|reference|absolutify(url)|str|safe }}
+
+    {% for translation in problem.translations.all() %}
+        <hr>
+        <h3 style="color:#393630; display: inline-block">{{ translation.name }}</h3>
+
+        {{ translation.description|markdown("problem", 'jax')|reference|absolutify(url)|str|safe }}
+    {% endfor %}
 </div>
 {% if math_engine == 'jax' %}
     <script type="text/javascript" src="mathjax_config.js"></script>

@@ -5,7 +5,7 @@
 
     {% if contest.start_time <= now or perms.judge.see_private_contest %}
         {% if contest.show_scoreboard or contest.can_see_scoreboard(request) %}
-            {{ make_tab('ranking', 'fa-bar-chart', url('contest_ranking'), _('Rankings')) }}
+            {{ make_tab('ranking', 'fa-bar-chart', url('contest_ranking'), _('Scoreboard')) }}
         {% else %}
             {{ make_tab('ranking', 'fa-bar-chart', None, _('Hidden Rankings')) }}
         {% endif %}
