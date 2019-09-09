@@ -104,10 +104,5 @@ def site_name(request):
 
 
 def math_setting(request):
-    if request.user.is_authenticated:
-        engine = request.user.profile.math_engine
-    else:
-        engine = getattr(settings, 'MATHOID_DEFAULT_TYPE', 'jax')
-    if engine == 'auto':
-        engine = 'jax'
+    engine = 'jax'
     return {'MATH_ENGINE': engine, 'REQUIRE_JAX': engine == 'jax'}
