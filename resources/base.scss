@@ -21,7 +21,7 @@ a {
     color: #555;
 
     &:hover {
-        color: $widget_bg;
+        // color: $widget_bg;
     }
 
     &:active {
@@ -183,7 +183,8 @@ header {
         display: inline-block;
     }
 
-    a {
+    a,
+    span {
         display: block;
         color: $nav_link_color;
         height: $nav_height;
@@ -471,7 +472,7 @@ noscript #noscript {
 // border-bottom-right-radius: 4px
 
 #content-body {
-    padding-bottom: 5em;
+    padding-bottom: 9em;
 }
 
 // Offset the footer
