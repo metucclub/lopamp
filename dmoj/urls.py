@@ -52,6 +52,7 @@ register_patterns = [
             'next': reverse_lazy('home'),
         },
         authentication_form=CustomAuthenticationForm,
+        redirect_authenticated_user=True,
     ), name='auth_login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='auth_logout'),
     url(r'^password/change/$', auth_views.PasswordChangeView.as_view(
