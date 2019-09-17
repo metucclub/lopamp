@@ -374,7 +374,7 @@ class Solution(models.Model):
     def get_absolute_url(self):
         problem = self.problem
         if problem is None:
-            return reverse('home')
+            return reverse('contest_view')
         else:
             return reverse('problem_editorial', args=[problem.code])
 

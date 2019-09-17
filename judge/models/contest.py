@@ -174,7 +174,7 @@ class Contest(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('contest_view', args=(self.key,))
+        return reverse('contest_view')
 
     def update_user_count(self):
         self.user_count = self.users.filter(virtual=0).count()

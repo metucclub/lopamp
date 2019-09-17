@@ -35,7 +35,7 @@ class PostList(ListView):
     def get_context_data(self, **kwargs):
         context = super(PostList, self).get_context_data(**kwargs)
         context['title'] = self.title or _('Page %d of Posts') % context['page_obj'].number
-        context['first_page_href'] = reverse('home')
+        context['first_page_href'] = reverse('contest_view')
         context['page_prefix'] = reverse('blog_post_list')
         context['comments'] = Comment.most_recent(self.request.user, 10)
         context['new_problems'] = Problem.objects.filter(is_public=True, is_organization_private=False) \

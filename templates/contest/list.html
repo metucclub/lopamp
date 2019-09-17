@@ -45,7 +45,7 @@
 
 {% macro contest_head(contest) %}
     {% spaceless %}
-        <a href="{{ url('contest_view', contest.key) }}" class="contest-list-title">
+        <a href="{{ url('contest_view') }}" class="contest-list-title">
             {{- contest.name -}}
         </a>
         <span class="contest-tags">

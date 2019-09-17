@@ -26,11 +26,11 @@
             {%- if participating and participation.virtual and not participation.ended -%}
                 {% if participation.spectate %}
                     {%- trans countdown=contest.time_before_end|as_countdown -%}
-                        Spectating, contest ends in {{ countdown }}.
+                        Contest ends in {{ countdown }}.
                     {%- endtrans %}
                 {% elif participation.end_time %}
                     {%- trans countdown=participation.time_remaining|as_countdown -%}
-                        Participating virtually, contest ends in {{ countdown }}.
+                        Contest ends in {{ countdown }}.
                     {%- endtrans %}
                 {% else %}
                     {{- _('Participating virtually.') -}}
@@ -46,11 +46,11 @@
                     {%- if participating -%}
                         {% if participation.ended %}
                             {%- trans countdown=contest.time_before_end|as_countdown -%}
-                                Your time is up! Contest ends in {{ countdown }}.
+                                Contest ends in {{ countdown }}.
                             {%- endtrans %}
                         {% else %}
                             {%- trans countdown=participation.time_remaining|as_countdown -%}
-                                You have {{ countdown }} remaining.
+                                Contest ends in {{ countdown }}.
                             {%- endtrans %}
                         {% endif %}
                     {%- else -%}
@@ -90,32 +90,18 @@
                     <th>{{ _('Points') }}</th>
                     <th>{{ _('AC Rate') }}</th>
                     <th>{{ _('Users') }}</th>
-                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for problem in contest_problems %}
                     <tr>
                         <td>
-                            {% if problem.is_public %}
-                                <a href="{{ url('problem_detail', problem.code) }}">{{ problem.i18n_name }}</a>
-                            {% else %}
-                                {{ problem.i18n_name }}
-                            {% endif %}
+                            <a href="{{ url('problem_detail', problem.code) }}">{{ problem.i18n_name }}</a>
                         </td>
                         <td>{{ problem.points|floatformat }}{% if problem.partial %}p{% endif %}</td>
                         <td>{{ problem.ac_rate|floatformat(1) }}%</td>
                         <td>
-                            {% if problem.is_public %}
-                                <a href="{{ url('ranked_submissions', problem.code) }}">{{ problem.user_count }}</a>
-                            {% else %}
-                                {{ problem.user_count }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if problem.is_public and problem.has_public_editorial %}
-                                <a href="{{ url('problem_editorial', problem.code) }}">{{ _('Editorial') }}</a>
-                            {% endif %}
+                            <a href="{{ url('ranked_submissions', problem.code) }}">{{ problem.user_count }}</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -124,11 +110,6 @@
         </div>
 
     <hr>
-    <span class="social">
-        {{ post_to_gplus(request, contest, '<i class="fa fa-google-plus-square"></i>') }}
-        {{ post_to_facebook(request, contest, '<i class="fa fa-facebook-official"></i>') }}
-        {{ post_to_twitter(request, SITE_NAME + ':', contest, '<i class="fa fa-twitter"></i>') }}
-    </span>
 
 {% endblock %}
 

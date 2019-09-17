@@ -42,11 +42,9 @@ class TimezoneFilter(admin.SimpleListFilter):
 
 
 class ProfileAdmin(VersionAdmin):
-    fields = ('user', 'display_rank', 'about', 'organizations', 'timezone', 'language', 'ace_theme',
-              'math_engine', 'last_access', 'ip', 'mute', 'is_unlisted', 'notes', 'is_totp_enabled', 'user_script', 'current_contest')
+    fields = ('user', 'team_name', 'team_slug', 'language', 'last_access', 'ip', 'mute', 'is_unlisted', 'notes', 'current_contest')
     readonly_fields = ('user',)
-    list_display = ('admin_user_admin', 'email', 'is_totp_enabled', 'timezone_full',
-                    'date_joined', 'last_access', 'ip', 'show_public')
+    list_display = ('admin_user_admin', 'team_name', 'email', 'date_joined', 'last_access', 'ip', 'show_public')
     ordering = ('user__username',)
     search_fields = ('user__username', 'ip', 'user__email')
     list_filter = ('language', TimezoneFilter)
@@ -57,20 +55,6 @@ class ProfileAdmin(VersionAdmin):
 
     def get_queryset(self, request):
         return super(ProfileAdmin, self).get_queryset(request).select_related('user')
-
-    def get_fields(self, request, obj=None):
-        if request.user.has_perm('judge.totp'):
-            fields = list(self.fields)
-            fields.insert(fields.index('is_totp_enabled') + 1, 'totp_key')
-            return tuple(fields)
-        else:
-            return self.fields
-
-    def get_readonly_fields(self, request, obj=None):
-        fields = self.readonly_fields
-        if not request.user.has_perm('judge.totp'):
-            fields += ('is_totp_enabled',)
-        return fields
 
     def show_public(self, obj):
         return format_html('<a href="{0}" style="white-space:nowrap;">{1}</a>',
@@ -106,8 +90,3 @@ class ProfileAdmin(VersionAdmin):
                                              '%d users have scores recalculated.',
                                              count) % count)
     recalculate_points.short_description = _('Recalculate scores')
-
-    def get_form(self, request, obj=None, **kwargs):
-        form = super(ProfileAdmin, self).get_form(request, obj, **kwargs)
-        form.base_fields['user_script'].widget = AceWidget('javascript', request.user.profile.ace_theme)
-        return form

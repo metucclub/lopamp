@@ -59,7 +59,7 @@ def demo_task(request, task, message):
     if not request.user.is_superuser:
         raise PermissionDenied()
     result = task.delay()
-    return redirect_to_task_status(result, message=message, redirect=reverse('home'))
+    return redirect_to_task_status(result, message=message, redirect=reverse('contest_view'))
 
 
 demo_success = partial(demo_task, task=success, message='Running example task that succeeds...')

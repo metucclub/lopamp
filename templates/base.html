@@ -132,9 +132,9 @@
     <div id="nav-container">
         <a id="navicon" href="javascript:void(0)"><i class="fa fa-bars"></i></a>
         <ul id="nav-list">
-            <li class="home-nav-element"><a href="{{ url('home') }}">{% include "site-logo-fragment.html" %}</a></li>
+            <li class="home-nav-element"><a href="{{ url('contest_view') }}">{% include "site-logo-fragment.html" %}</a></li>
             <li class="home-nav-element"><span class="nav-divider"></span></li>
-            <li class="home-menu-item"><a href="{{ url('home') }}" class="nav-home">{{ _('Home') }}</a></li>
+            <li class="home-menu-item"><a href="{{ url('contest_view') }}" class="nav-home">{{ _('contest_view') }}</a></li>
             {% for node in mptt_tree(nav_bar) recursive %}
                 <li>
                     <a href="{{ node.path }}" class="nav-{{ node.key }}{% if node.key in nav_tab %} active{% endif %}">
@@ -151,35 +151,28 @@
         </ul>
         <div id="user-links">
             {% if request.user.is_authenticated %}
-                    <a href="{{ url('user_page') }}">
-                        <img class="avatar-img" src="{{ gravatar(request.user, 32) }}">{# -#}
-                        <div class="hello">
-                            {%- trans username=request.user.username -%}
-                                Hello, <b>{{ username }}</b>.
-                            {%- endtrans -%}
-                        </div>
-                    </a>
+                <a href="{{ url('user_page') }}">
+                    <img class="avatar-img" src="{{ gravatar(request.user, 32) }}">{# -#}
+                    <div class="hello">
+                        Hello, <b>{{ request.user.profile.team_name }}</b>.
+                    </div>
+                </a>
+
                 <ul class="user-drop">
                     {% if request.user.is_staff or request.user.is_superuser %}
                         <li><a href="{{ url('admin:index') }}">{{ _('Admin') }}</a></li>
                     {% endif %}
-                        <li><a href="{{ url('user_edit_profile') }}">{{ _('Edit profile') }}</a></li>
-                    {% if request.user.is_impersonate %}
-                        <li><a href="{{ url('impersonate-stop') }}">Stop impersonating</a></li>
-                    {% else %}
-                        <li>
-                            <form action="{{ url('auth_logout') }}" method="POST" id="logout">
-                                {% csrf_token %}
-                                <a href="#" onclick="document.getElementById('logout').submit();">{{ _('Log out') }}</a>
-                            </form>
-                        </li>
-                    {% endif %}
+
+                    <li>
+                        <form action="{{ url('auth_logout') }}" method="POST" id="logout">
+                            {% csrf_token %}
+                            <a href="#" onclick="document.getElementById('logout').submit();">{{ _('Log out') }}</a>
+                        </form>
+                    </li>
                 </ul>
             {% else %}
                 <span class="anon">
                     <a href="{{ url('auth_login') }}?next={{ LOGIN_RETURN_PATH|urlencode }}"><b>{{ _('Login') }}</b></a>
-                    &nbsp;|&nbsp;
-                    <a href="{{ url('registration_register') }}">{{ _('Register') }}</a>
                 </span>
             {% endif %}
         </div>
