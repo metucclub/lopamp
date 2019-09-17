@@ -30,6 +30,7 @@ register_patterns = [
             'next': reverse_lazy('contest_view'),
         },
         authentication_form=CustomAuthenticationForm,
+        redirect_authenticated_user=True,
     ), name='auth_login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='auth_logout'),
 ]
