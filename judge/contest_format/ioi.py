@@ -80,11 +80,9 @@ class IOIContestFormat(DefaultContestFormat):
         format_data = (participation.format_data or {}).get(str(contest_problem.id))
         if format_data:
             return format_html(
-                '<td class="{state}"><a href="{url}">{points}<div class="solving-time">{time}</div></a></td>',
+                '<td class="{state}">{points}<div class="solving-time">{time}</div></td>',
                 state=('pretest-' if self.contest.run_pretests_only and contest_problem.is_pretested else '') +
                        self.best_solution_state(format_data['points'], contest_problem.points),
-                url=reverse('contest_user_submissions',
-                            args=[self.contest.key, participation.user.user.username, contest_problem.problem.code]),
                 points=floatformat(format_data['points']),
                 time=nice_repr(timedelta(seconds=format_data['time']), 'noday') if self.config['cumtime'] else '',
             )

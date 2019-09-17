@@ -1,17 +1,5 @@
 {% extends "user/base-users-table.html" %}
 
-{% block after_rank_head %}
-    {% if has_rating %}
-        <th>{{ _('Rating') }}</th>
-    {% endif %}
-{% endblock %}
-
-{% block after_rank %}
-    {% if has_rating %}
-        <td>{% if user.participation_rating %}{{ rating_number(user.participation_rating) }}{% endif %}</td>
-    {% endif %}
-{% endblock %}
-
 {% block user_data %}
     {% if not contest.ended %}
         {% if user.participation and not user.participation.ended %}
@@ -21,10 +9,6 @@
         {% else %}
             <div class="start-time">{{ _('Participation ended.') }}</div>
         {% endif %}
-    {% endif %}
-    {% if perms.judge.change_contestparticipation %}
-        <div data-link="{{ url('admin:judge_contestparticipation_change', user.participation.id) }}"
-             class="edit-participation"></div>
     {% endif %}
 {% endblock %}
 

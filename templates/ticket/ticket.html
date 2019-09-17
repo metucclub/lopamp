@@ -339,9 +339,9 @@
                 {% for message in ticket_messages %}
                     <section id="message-{{ message.id }}" class="message">
                         <div class="info">
-                            <a href="{{ url('user_page', message.user.user.username) }}" class="user">
+                            <a class="user">
                                 <img src="{{ gravatar(message.user, 135) }}" class="gravatar">
-                                <div class="username {{ message.user.css_class }}">{{ message.user.user.username }}</div>
+                                <div class="username {{ message.user.css_class }}">{{ message.user.profile.team_name }}</div>
                             </a>
                         </div>
                         <div class="detail">
@@ -360,9 +360,9 @@
             <hr>
             <section class="message new-message">
                 <div class="info">
-                    <a href="{{ url('user_page') }}" class="user">
+                    <a class="user">
                         <img src="{{ gravatar(request.user) }}" class="gravatar">
-                        <div class="username {{ request.user.profile.css_class }}">{{ request.user.username }}</div>
+                        <div class="username {{ request.user.profile.css_class }}">{{ request.user.profile.team_name }}</div>
                     </a>
                 </div>
                 <div class="detail">

@@ -80,6 +80,7 @@
         {% endcache %}
     </div>
 
+    {% if participating %}
         <hr>
         <div class="contest-problems">
             <h2 style="margin-bottom: 0.2em"><i class="fa fa-fw fa-question-circle"></i>{{ _('Problems') }} </h2>
@@ -87,7 +88,7 @@
                 <thead>
                 <tr>
                     <th>{{ _('Problem') }}</th>
-                    <th>{{ _('Points') }}</th>
+                    {# <th>{{ _('Points') }}</th> #}
                     <th>{{ _('AC Rate') }}</th>
                     <th>{{ _('Users') }}</th>
                 </tr>
@@ -98,17 +99,17 @@
                         <td>
                             <a href="{{ url('problem_detail', problem.code) }}">{{ problem.i18n_name }}</a>
                         </td>
-                        <td>{{ problem.points|floatformat }}{% if problem.partial %}p{% endif %}</td>
+                        {# <td>{{ problem.points|floatformat }}{% if problem.partial %}p{% endif %}</td> #}
                         <td>{{ problem.ac_rate|floatformat(1) }}%</td>
                         <td>
-                            <a href="{{ url('ranked_submissions', problem.code) }}">{{ problem.user_count }}</a>
+                            {{ problem.user_count }}
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
-
+    {% endif %}
     <hr>
 
 {% endblock %}

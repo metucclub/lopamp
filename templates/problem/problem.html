@@ -43,32 +43,9 @@
     </style>
 {% endblock %}
 
-{% block content_js_media %}
-    <script>
-        $(function () {
-            $('a#clone-link').click(function (event) {
-                event.preventDefault();
-                if (confirm('Are you sure you want to clone?'))
-                    $(this).closest("form").submit();
-            })
-        });
-    </script>
-{% endblock %}
-
 {% block title_row %}
     <div class="problem-title">
         <h2 style="color:#393630; display: inline-block">{{ title }}</h2>
-        {% if problem.is_organization_private %}
-            <span class="organization-tags">
-                {% for org in problem.organizations.all() %}
-                    <span class="organization-tag">
-                        <a href="{{ org.get_absolute_url() }}">
-                            <i class="fa fa-lock"></i> {{ org.name }}
-                        </a>
-                    </span>
-                {% endfor %}
-            </span>
-        {% endif %}
         {% if has_pdf_render %}
             <span class="spacer"></span>
             <a href="{{ url('problem_pdf', problem.code) }}" class="view-pdf">
@@ -109,21 +86,15 @@
 
     {% if request.user.is_authenticated and has_submissions %}
         <div>
-            <a href="{{ url('user_submissions', problem.code, request.user.username) }}">{{ _('My submissions') }}</a>
+            <a href="{{ url('user_submissions', problem.code, request.user.profile.team_slug) }}">{{ _('My submissions') }}</a>
         </div>
     {% endif %}
+
     <div><a href="{{ url('chronological_submissions', problem.code) }}">{{ _('All submissions') }}</a></div>
-    <div><a href="{{ url('ranked_submissions', problem.code) }}">{{ _('Best submissions') }}</a></div>
-    {% if editorial and editorial.is_public %}
-        <hr>
-        <div><a href="{{ url('problem_editorial', problem.code) }}">{{ _('Read editorial') }}</a></div>
-    {% endif %}
+
     {% if can_edit_problem %}
         <hr>
         <div><a href="{{ url('admin:judge_problem_change', problem.id) }}">{{ _('Edit problem') }}</a></div>
-        {% if not problem.is_manually_managed %}
-            <div><a href="{{ url('problem_data', problem.code) }}">{{ _('Edit test data') }}</a></div>
-        {% endif %}
     {% elif request.user.is_authenticated and has_tickets %}
         <hr>
         <div>
@@ -136,15 +107,6 @@
     {% if problem.is_subs_manageable_by(request.user) %}
         <div>
             <a href="{{ url('problem_manage_submissions', problem.code) }}">{{ _('Manage submissions') }}</a>
-        </div>
-    {% endif %}
-
-    {% if perms.judge.clone_problem %}
-        <div>
-            <form action="{{ url('problem_clone', problem.code) }}" method="post">
-                {% csrf_token %}
-                <a id="clone-link" href="#">{{ _('Clone problem') }}</a>
-            </form>
         </div>
     {% endif %}
 
@@ -187,21 +149,6 @@
 
     <hr style="padding-top: 0.7em">
 
-    {% cache 86400 'problem_authors' problem.id LANGUAGE_CODE %}
-        {% with authors=problem.authors.all() %}
-            {% if authors %}
-                <div class="problem-info-entry">
-                    <i class="fa fa-pencil-square-o fa-fw"></i><span
-                        class="pi-name">{% trans trimmed count=authors|length %}
-                    Author:
-                    {% pluralize count %}
-                    Authors:
-                {% endtrans %}</span>
-                    <div class="pi-value authors-value">{{ link_users(authors) }}</div>
-                </div>
-            {% endif %}
-        {% endwith %}
-    {% endcache %}
     {% if show_languages %}
         <div id="allowed-langs">
             <div class="toggle open unselectable">q

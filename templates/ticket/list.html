@@ -227,24 +227,6 @@
                         <label for="own">{{ _('Show my tickets only') }}</label>
                     </div>
 
-                    <div id="user-box" class="filter-select2">
-                        <label for="filter-user">{{ _('Filing user') }}</label>
-                        <select id="filter-user" style="width: 100%" multiple name="user">
-                            {% for username in filter_status.user %}
-                                <option value="{{ username }}" selected>{{ username }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div id="assignee-box" class="filter-select2">
-                        <label for="filter-user">{{ _('Assignee') }}</label>
-                        <select id="filter-assignee" style="width: 100%" multiple name="assignee">
-                            {% for username in filter_status.assignee %}
-                                <option value="{{ username }}" selected>{{ username }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
                     <button type="submit" style="margin-left: auto" class="submit">{{ _('Go') }}</button>
                 </form>
             </div>
@@ -260,8 +242,6 @@
                     <th></th>
                     <th>{{ _('ID') }}</th>
                     <th>{{ _('Title') }}</th>
-                    <th>{{ _('User') }}</th>
-                    <th>{{ _('Assignees') }}</th>
                 </tr>
                 </thead>
                 <tbody>

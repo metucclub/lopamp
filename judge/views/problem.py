@@ -195,24 +195,14 @@ class ProblemDetail(ProblemMixin, SolvedProblemMixin, CommentedDetailView):
             context['editorial'] = Solution.objects.get(problem=self.object)
         except ObjectDoesNotExist:
             pass
-        try:
-            translation = self.object.translations.get(language=self.request.LANGUAGE_CODE)
-        except ProblemTranslation.DoesNotExist:
-            context['title'] = self.object.name
-            context['language'] = settings.LANGUAGE_CODE
-            context['description'] = self.object.description
-            context['translated'] = False
-        else:
-            context['title'] = translation.name
-            context['language'] = self.request.LANGUAGE_CODE
-            context['description'] = translation.description
-            context['translated'] = True
 
         if not self.object.og_image or not self.object.summary:
             metadata = generate_opengraph('generated-meta-problem:%s:%d' % (context['language'], self.object.id),
                                           context['description'], 'problem')
         context['meta_description'] = self.object.summary or metadata[0]
         context['og_image'] = self.object.og_image or metadata[1]
+
+        context['translations'] = self.object.translations.all()
         return context
 
 

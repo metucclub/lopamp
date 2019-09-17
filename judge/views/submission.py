@@ -56,9 +56,9 @@ class SubmissionDetailBase(LoginRequiredMixin, TitleMixin, SubmissionMixin, Deta
 
     def get_title(self):
         submission = self.object
-        return _('Submission of %(problem)s by %(user)s') % {
+        return _('Submission of %(problem)s by %(team)s') % {
             'problem': submission.problem.translated_name(self.request.LANGUAGE_CODE),
-            'user': submission.user.user.username
+            'team': submission.user.team_name
         }
 
     def get_content_title(self):
@@ -68,8 +68,8 @@ class SubmissionDetailBase(LoginRequiredMixin, TitleMixin, SubmissionMixin, Deta
                                    reverse('problem_detail', args=[submission.problem.code]),
                                    submission.problem.translated_name(self.request.LANGUAGE_CODE)),
             'user': format_html('<a href="{0}">{1}</a>',
-                                reverse('user_page', args=[submission.user.user.username]),
-                                submission.user.user.username),
+                                reverse('all_user_submissions', args=[submission.user.team_slug]),
+                                submission.user.team_name),
         })
 
 
@@ -277,10 +277,9 @@ class SubmissionsListBase(DiggPaginatorMixin, TitleMixin, ListView):
 
 class UserMixin(object):
     def get(self, request, *args, **kwargs):
-        if 'user' not in kwargs:
-            raise ImproperlyConfigured('Must pass a user')
-        self.profile = get_object_or_404(Profile, user__username=kwargs['user'])
-        self.username = kwargs['user']
+        if 'team_slug' not in kwargs:
+            raise ImproperlyConfigured('Must pass a team_slug')
+        self.profile = get_object_or_404(Profile, team_slug=kwargs['team_slug'])
         return super(UserMixin, self).get(request, *args, **kwargs)
 
 
@@ -302,17 +301,17 @@ class AllUserSubmissions(ConditionalUserTabMixin, UserMixin, SubmissionsListBase
     def get_title(self):
         if self.request.user.is_authenticated and self.request.user.profile == self.profile:
             return _('All my submissions')
-        return _('All submissions by %s') % self.username
+        return _('All submissions by %s') % self.profile.team_name
 
     def get_content_title(self):
         if self.request.user.is_authenticated and self.request.user.profile == self.profile:
             return format_html('All my submissions')
-        return format_html('All submissions by <a href="{1}">{0}</a>', self.username,
-                           reverse('user_page', args=[self.username]))
+        return format_html('All submissions by <a href="{1}">{0}</a>', self.profile.team_name,
+                           reverse('all_user_submissions', args=[self.profile.team_slug]))
 
     def get_my_submissions_page(self):
         if self.request.user.is_authenticated:
-            return reverse('all_user_submissions', kwargs={'user': self.request.user.username})
+            return reverse('all_user_submissions', kwargs={'team_slug': self.request.user.profile.team_slug})
 
     def get_context_data(self, **kwargs):
         context = super(AllUserSubmissions, self).get_context_data(**kwargs)
@@ -374,7 +373,7 @@ class ProblemSubmissions(ProblemSubmissionsBase):
     def get_my_submissions_page(self):
         if self.request.user.is_authenticated:
             return reverse('user_submissions', kwargs={'problem': self.problem.code,
-                                                       'user': self.request.user.username})
+                                                       'team_slug': self.request.user.profile.team_slug})
 
 
 class UserProblemSubmissions(ConditionalUserTabMixin, UserMixin, ProblemSubmissions):
@@ -396,15 +395,15 @@ class UserProblemSubmissions(ConditionalUserTabMixin, UserMixin, ProblemSubmissi
     def get_title(self):
         if self.is_own:
             return _("My submissions for %(problem)s") % {'problem': self.problem_name}
-        return _("%(user)s's submissions for %(problem)s") % {'user': self.username, 'problem': self.problem_name}
+        return _("%(team)s's submissions for %(problem)s") % {'team': self.profile.team_name, 'problem': self.problem_name}
 
     def get_content_title(self):
         if self.request.user.is_authenticated and self.request.user.profile == self.profile:
             return format_html('''My submissions for <a href="{3}">{2}</a>''',
-                               self.username, reverse('user_page', args=[self.username]),
+                               self.profile.team_name, reverse('all_user_submissions', args=[self.profile.team_slug]),
                                self.problem_name, reverse('problem_detail', args=[self.problem.code]))
         return format_html('''<a href="{1}">{0}</a>'s submissions for <a href="{3}">{2}</a>''',
-                           self.username, reverse('user_page', args=[self.username]),
+                           self.profile.team_name, reverse('all_user_submissions', args=[self.profile.team_slug]),
                            self.problem_name, reverse('problem_detail', args=[self.problem.code]))
 
     def get_context_data(self, **kwargs):
@@ -448,7 +447,7 @@ class AllSubmissions(SubmissionsListBase):
 
     def get_my_submissions_page(self):
         if self.request.user.is_authenticated:
-            return reverse('all_user_submissions', kwargs={'user': self.request.user.username})
+            return reverse('all_user_submissions', kwargs={'team_slug': self.request.user.profile.team_slug})
 
     def get_context_data(self, **kwargs):
         context = super(AllSubmissions, self).get_context_data(**kwargs)
@@ -501,9 +500,9 @@ class ForceContestMixin(object):
 class UserContestSubmissions(ForceContestMixin, UserProblemSubmissions):
     def get_title(self):
         if self.problem.is_accessible_by(self.request.user):
-            return "%s's submissions for %s in %s" % (self.username, self.problem_name, self.contest.name)
+            return "%s's submissions for %s in %s" % (self.profile.team_name, self.problem_name, self.contest.name)
         return "%s's submissions for problem %s in %s" % (
-            self.username, self.get_problem_number(self.problem), self.contest.name)
+            self.profile.team_name, self.get_problem_number(self.problem), self.contest.name)
 
     def access_check(self, request):
         super(UserContestSubmissions, self).access_check(request)
@@ -514,11 +513,11 @@ class UserContestSubmissions(ForceContestMixin, UserProblemSubmissions):
         if self.problem.is_accessible_by(self.request.user):
             return format_html(_('<a href="{1}">{0}</a>\'s submissions for '
                                  '<a href="{3}">{2}</a> in <a href="{5}">{4}</a>'),
-                               self.username, reverse('user_page', args=[self.username]),
+                               self.profile.team_name, reverse('all_user_submissions', args=[self.profile.team_slug]),
                                self.problem_name, reverse('problem_detail', args=[self.problem.code]),
                                self.contest.name, reverse('contest_view'))
         return format_html(_('<a href="{1}">{0}</a>\'s submissions for '
                              'problem {2} in <a href="{4}">{3}</a>'),
-                           self.username, reverse('user_page', args=[self.username]),
+                           self.profile.team_name, reverse('all_user_submissions', args=[self.profile.team_slug]),
                            self.get_problem_number(self.problem),
                            self.contest.name, reverse('contest_view'))
