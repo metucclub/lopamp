@@ -152,7 +152,7 @@
         </ul>
         <div id="user-links">
             {% if request.user.is_authenticated %}
-                <a href="{{ url('user_page') }}">
+                <a href="{{ url('all_user_submissions', request.user.profile.team_slug) }}">
                     <img class="avatar-img" src="{{ gravatar(request.user, 32) }}">{# -#}
                     <div class="hello">
                         Hello, <b>{{ request.user.profile.team_name }}</b>.

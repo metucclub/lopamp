@@ -91,34 +91,4 @@
     {% else %}
         <hr>
     {% endif %}
-
-    {% for group in best_submissions %}
-        <div class="user-problem-group">
-            <h3 class="unselectable toggle closed"><span class="fa fa-chevron-right fa-fw"></span>
-                {{ group.name }} ({{ _('%(points).1f points', points=group.points) }})
-            </h3>
-            <table style="display: none" class="table toggled">
-                <thead>
-                <tr>
-                    <th>{{ _('Problem') }}</th>
-                    <th>{{ _('Score') }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for entry in group.problems %}
-                    <tr>
-                        <td class="problem-name">
-                            <a href="{{ url('problem_detail', entry.code) }}">{{ entry.name }}</a>
-                        </td>
-                        <td class="problem-score">
-                            <a href="{{ url('user_submissions', entry.code, user.user.username) }}">
-                                {{ _('%(points)s / %(total)s', points=entry.points, total=entry.total) }}
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endfor %}
 {% endblock %}

@@ -95,18 +95,14 @@
     {% if can_edit_problem %}
         <hr>
         <div><a href="{{ url('admin:judge_problem_change', problem.id) }}">{{ _('Edit problem') }}</a></div>
-    {% elif request.user.is_authenticated and has_tickets %}
+    {% endif %}
+
+    {% if request.user.is_authenticated and has_tickets %}
         <hr>
         <div>
             <a href="{{ url('problem_ticket_list', problem.code) }}">{{ _('My tickets') }}
                 {% if num_open_tickets %}<span class="badge">{{ num_open_tickets }}</span>{% endif %}
             </a>
-        </div>
-    {% endif %}
-
-    {% if problem.is_subs_manageable_by(request.user) %}
-        <div>
-            <a href="{{ url('problem_manage_submissions', problem.code) }}">{{ _('Manage submissions') }}</a>
         </div>
     {% endif %}
 
@@ -212,11 +208,7 @@
 {% block post_description_end %}
     {% if request.user.is_authenticated and not request.profile.mute %}
         <a href="{{ url('new_problem_ticket', problem.code) }}" class="button clarify">
-            {%- if contest_problem and contest_problem.contest.use_clarifications and request.profile.current_contest.live -%}
-                {{ _('Request clarification') }}
-            {%- else -%}
-                {{ _('Report an issue') }}
-            {%- endif -%}
+            {{ _('Request clarification') }}
         </a>
     {% endif %}
 {% endblock %}

@@ -75,13 +75,6 @@
     <script type="text/javascript" src="{{ static('event.js') }}"></script>
     <script type="text/javascript">
         $(function () {
-            $('input#own').click(function () {
-                ($('<form>').attr('action', window.location.pathname + '?' + $('form#filter-form').serialize())
-                    .append($('<input>').attr('type', 'hidden').attr('name', 'csrfmiddlewaretoken')
-                        .attr('value', $.cookie('csrftoken')))
-                    .attr('method', 'POST').appendTo($('body')).submit());
-            });
-
             register_notify('ticket', {
                 $checkbox: $('#notification'),
                 change: function (enabled) {
@@ -220,15 +213,6 @@
                     <input id="notification" type="checkbox">
                     <label for="notification">{{ _('Use desktop notification') }}</label>
                 </div>
-
-                <form id="filter-form" name="form" action="" method="get">
-                    <div id="own-box" class="filter-check">
-                        <input id="own" type="checkbox" name="own"{% if filter_status.own %} checked{% endif %} value="1">
-                        <label for="own">{{ _('Show my tickets only') }}</label>
-                    </div>
-
-                    <button type="submit" style="margin-left: auto" class="submit">{{ _('Go') }}</button>
-                </form>
             </div>
         </aside>
 

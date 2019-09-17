@@ -300,37 +300,12 @@
                         <a href="{{ ticket.linked_item.get_absolute_url() }}">{{ ticket.linked_item }}</a>
                     </div>
                 </div>
-                <div class="info-box">
-                    <div class="info-title">{{ _('Assignees') }}</div>
-                    <div class="info-data">
-                        {% if assignees %}
-                            {{ link_users(assignees) }}
-                        {% else %}
-                            <div class="info-empty">{{ _('No one is assigned.') }}</div>
-                        {% endif %}
-                    </div>
-                </div>
 
                 <button data-ajax="{{ url('ticket_close', ticket.id) }}" data-open="0" class="close-ticket"
                         {% if not ticket.is_open %}style="display: none"{% endif %}>{{ _('Close ticket') }}</button>
                 <button data-ajax="{{ url('ticket_open', ticket.id) }}" data-open="1" class="open-ticket"
                         {% if ticket.is_open %}style="display: none"{% endif %}>{{ _('Reopen ticket') }}</button>
 
-                {% if perms.judge.change_ticket or request.user.profile in assignees %}
-                    <div class="info-box">
-                        <div class="info-title">{{ _('Assignee notes') }}
-                            <a href="#" data-featherlight="{{ url('ticket_notes', ticket.id) }}" class="edit-notes">
-                                <i class="fa fa-pencil"></i>
-                            </a>
-                        </div>
-                        <div id="ticket-notes" class="info-data">
-                            <div{% if ticket.notes %} style="display: none"{% endif %} class="info-empty">
-                                {{ _('Nothing here.') }}
-                            </div>
-                            <div class="info-real">{{ ticket.notes|linebreaks }}</div>
-                        </div>
-                    </div>
-                {% endif %}
             </div>
         </aside>
 
@@ -341,7 +316,7 @@
                         <div class="info">
                             <a class="user">
                                 <img src="{{ gravatar(message.user, 135) }}" class="gravatar">
-                                <div class="username {{ message.user.css_class }}">{{ message.user.profile.team_name }}</div>
+                                <div class="username {{ message.user.css_class }}">{{ message.user.team_name }}</div>
                             </a>
                         </div>
                         <div class="detail">

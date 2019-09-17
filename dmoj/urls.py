@@ -74,19 +74,6 @@ urlpatterns = [
 
         url(r'^/tickets$', ticket.ProblemTicketListView.as_view(), name='problem_ticket_list'),
         url(r'^/tickets/new$', ticket.NewProblemTicketView.as_view(), name='new_problem_ticket'),
-
-        url(r'^/manage/submission', include([
-            url('^$', problem_manage.ManageProblemSubmissionView.as_view(), name='problem_manage_submissions'),
-            url('^/rejudge$', problem_manage.RejudgeSubmissionsView.as_view(), name='problem_submissions_rejudge'),
-            url('^/rejudge/preview$', problem_manage.PreviewRejudgeSubmissionsView.as_view(),
-                name='problem_submissions_rejudge_preview'),
-            url('^/rejudge/success/(?P<task_id>[A-Za-z0-9-]*)$', problem_manage.rejudge_success,
-                name='problem_submissions_rejudge_success'),
-            url('^/rescore/all$', problem_manage.RescoreAllSubmissionsView.as_view(),
-                name='problem_submissions_rescore_all'),
-            url('^/rescore/success/(?P<task_id>[A-Za-z0-9-]*)$', problem_manage.rescore_success,
-                name='problem_submissions_rescore_success'),
-        ])),
     ])),
 
     url(r'^submissions/', paged_list_view(submission.AllSubmissions, 'all_submissions')),

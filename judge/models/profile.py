@@ -157,7 +157,7 @@ class Profile(models.Model):
     update_contest.alters_data = True
 
     def get_absolute_url(self):
-        return reverse('user_page', args=(self.user.username,))
+        return reverse('all_user_submissions', args=(self.user.profile.team_slug,))
 
     def __str__(self):
         return self.user.username
