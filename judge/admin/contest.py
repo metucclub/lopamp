@@ -100,8 +100,8 @@ class ContestForm(ModelForm):
 
 class ContestAdmin(VersionAdmin):
     fieldsets = (
-        (None, {'fields': ('key', 'name', 'organizers', 'is_public', 'use_clarifications',
-                           'hide_problem_tags', 'hide_scoreboard', 'run_pretests_only')}),
+        (None, {'fields': ('key', 'name', 'organizers', 'is_public',
+                            'hide_scoreboard', 'run_pretests_only')}),
         (_('Scheduling'), {'fields': ('start_time', 'end_time', 'time_limit')}),
         (_('Details'), {'fields': ('description', 'og_image', 'logo_override_image')}),
         (_('Format'), {'fields': ('format_name', 'format_config')}),

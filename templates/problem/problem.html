@@ -143,9 +143,9 @@
         {% endfor %}
     </div>
 
-    <hr style="padding-top: 0.7em">
-
     {% if show_languages %}
+        <hr style="padding-top: 0.7em">
+
         <div id="allowed-langs">
             <div class="toggle open unselectable">q
                 <i class="fa fa-chevron-right fa-fw"></i>{{ _('Allowed languages') }}
@@ -164,7 +164,10 @@
             </div>
         </div>
     {% endif %}
+
     {% if problem.is_editable_by(request.user) %}
+        <hr style="padding-top: 0.7em">
+
         <div id="available-judges">
             <i class="fa fa-database fa-fw"></i><span
                 class="pi-name">{% trans trimmed count=available_judges|length %}
@@ -192,7 +195,7 @@
 {% endblock %}
 
 {% block description %}
-    {% cache 86400 'problem_html' problem.id problem.description MATH_ENGINE LANGUAGE_CODE %}
+    {% cache 86400 'problem_html' problem.id problem.title description MATH_ENGINE LANGUAGE_CODE %}
         {{ description|markdown("problem", MATH_ENGINE)|reference|str|safe }}
     {% endcache %}
 

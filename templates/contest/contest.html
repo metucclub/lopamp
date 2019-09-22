@@ -96,7 +96,7 @@
                 {% for problem in contest_problems %}
                     <tr>
                         <td>
-                            {% if participating %}
+                            {% if request.user.is_superuser or (participating and not contest.ended) %}
                                 <a href="{{ url('problem_detail', problem.code) }}">{{ problem.i18n_name }}</a>
                             {% else %}
                                 {{ problem.i18n_name }}
