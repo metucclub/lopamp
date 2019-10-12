@@ -27,7 +27,7 @@ ENV LIBRARY_PATH=/lib:/usr/lib
 ENV PYTHONUNBUFFERED 1
 
 RUN wget -q https://github.com/fgrehm/docker-phantomjs2/releases/download/v2.0.0-20150722/dockerized-phantomjs.tar.gz && \
-    tar -xzf dockerized-phantomjs.tar.gz -C /usr/local && \
+    tar -xzf dockerized-phantomjs.tar.gz -C / && \
     rm -rf dockerized-phantomjs.tar.gz
 
 RUN mkdir -p /app
